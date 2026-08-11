@@ -13,23 +13,28 @@ build-up, and validated by scripts that fail the build if the ladder breaks.
 | Tier | Families | SKUs | Avg retail | Blended GM |
 |---|---|---|---|---|
 | Good | 6 | 19 | $731 | 49.3% |
-| Better | 8 | 29 | $1,198 | 52.3% |
-| Best | 5 | 17 | $1,967 | 54.7% |
-| **Line** | **19** | **65** | **$1,246** | **52.8%** |
+| Better | 8 | 29 | $1,202 | 52.3% |
+| Best | 5 | 17 | $1,989 | 54.7% |
+| **Line** | **19** | **65** | **$1,270** | **52.8%** |
 
 Three style territories, all transitional: Classic (22 SKUs), Modern (22),
 Casual (21). 598 orderable cover combinations, 499 stocked — the 99-SKU
 difference lives in Best-tier custom-order books.
 
+**Sourcing:** national brands anchor every tier but are capped at 30% of the
+floor — Ashley at Good, La-Z-Boy at Better (motion only), Flexsteel at Best
+(motion only) = 18 SKUs, 27.7%. The other 47 come from 10 High Point
+resources. See `docs/06-vendor-architecture.md`.
+
 ## Trade-up lanes
 
 | Lane | Good | Better | Best |
 |---|---|---|---|
-| Classic Transitional sofa | Ashcroft $849 | Glenwood $1,299 | Pemberton $1,799 |
+| Classic Transitional sofa | Ashcroft $849 | Glenwood $1,299 | Pemberton $1,849 |
 | Modern Transitional sofa | Brantley $799 | Harlow $1,199 | Quincy $1,749 |
 | Casual Transitional sofa | Cordell $899 | Ivywood $1,349 | Ravenswood $1,899 |
 | Sectional (3-Pc) | Denby $1,399 | Kingsley $1,999 | Ravenswood $2,699 |
-| Recliner | Easton $499 | Marchetti $699 → Northfield $899 | Stratton $1,299 |
+| Recliner | Easton $499 | Marchetti $699 → Northfield $999 | Stratton $1,499 |
 | Reclining sofa | Easton $999 | Marchetti $1,449 → Northfield $1,899 | Stratton $2,799 |
 
 ## Repository layout
@@ -41,6 +46,12 @@ docs/
   03-price-architecture.md  Margin, step-ups, what the cost audit changed
   04-cover-strategy.md      Cover depth, gating logic, proliferation math
   05-assortment-health.md   Current check status, exceptions, open items
+  06-vendor-architecture.md Who supplies each SKU, buy rules, do-not-source
+
+research/                   Captured vendor research, ~90 cited sources
+  national-brands.md        Ashley, La-Z-Boy, Flexsteel
+  highpoint-major-upholstery.md    18 major stationary resources
+  highpoint-niche-upholstery.md    15 niche / design-led makers
 
 data/                       Generated -- do not hand-edit
   sku_master.csv            All 65 SKUs with full specs, cost and margin
@@ -53,6 +64,7 @@ scripts/
   build_data.py             Regenerates data/*.csv
   ladder_health.py          Assortment-level checks (margin, mix, lanes, covers)
   spec_checker.py           Construction audit, Layers 1-5, per family
+  build_page.py             Renders docs/assortment.html from the data
 ```
 
 ## Usage

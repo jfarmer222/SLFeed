@@ -254,6 +254,23 @@ def check_vendor_architecture(rows):
                    f"${lo:,}-${hi:,} -- customer may have seen this brand "
                    f"cheaper elsewhere")
 
+    # Parent-company concentration. England is not a national brand on the
+    # floor -- the customer never sees "La-Z-Boy" on an England sofa -- but it
+    # is owned by La-Z-Boy Inc., so it concentrates exposure to one parent.
+    # Both readings matter, so both get reported.
+    parents = defaultdict(int)
+    for r in rows:
+        key = A.FAMILY_VENDOR[r["family_code"]]
+        v = A.VENDORS.get(key, {})
+        parent = v.get("parent") or v.get("name")
+        if parent:
+            parents[parent] += 1
+    for parent, n in sorted(parents.items(), key=lambda kv: -kv[1])[:4]:
+        share = n / len(rows)
+        level = "FLAG" if share > 0.25 else "INFO"
+        record(level, "Parent exposure",
+               f"{parent}: {n}/{len(rows)} SKUs = {share:.1%} of the line")
+
     unsourced = [r for r in rows if r["vendor"] == "TBD"]
     if unsourced:
         fams = sorted({r["family"] for r in unsourced})

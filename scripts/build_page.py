@@ -107,6 +107,9 @@ def family_markup(rows):
             if fam["tier"] != tier:
                 continue
             skus = by_fam[code]
+            vend = A.vendor_of(code) or {"name": "TBD", "type": "Unsourced"}
+            vkey = {A.NATIONAL: "nat", A.DOMESTIC: "dom",
+                    A.NICHE: "nic"}.get(vend.get("type"), "tbd")
             lo = min(s["retail"] for s in skus)
             hi = max(s["retail"] for s in skus)
             pieces = "".join(
@@ -139,11 +142,13 @@ def family_markup(rows):
       <span class="terr">{e(fam["territory"])}</span>
     </div>
     <div class="fam-meta">
+      <span class="chip vend v-{vkey}">{e(vend["name"])}</span>
       <span class="chip">{e(fam["category"])}</span>
       <span class="range mono">${lo:,}&ndash;${hi:,}</span>
       <span class="count">{len(skus)} SKU{"s" if len(skus) != 1 else ""}</span>
     </div>
   </header>
+  <p class="srcline">{e(vend.get("showroom", ""))}{" &middot; " + e(vend["lead_time"]) if vend.get("lead_time") and vend["lead_time"] != "NOT PUBLISHED" else ""}</p>
   <p class="note">{e(" ".join(fam["design_note"].split()))}</p>
   <div class="specs">{specs}</div>
   <div class="tablewrap">
@@ -210,7 +215,30 @@ def main():
         for t in (A.GOOD, A.BETTER, A.BEST)
     )
 
+    by_type = defaultdict(int)
+    vend_skus = defaultdict(int)
+    for r in rows:
+        by_type[r["vendor_type"]] += 1
+        vend_skus[A.FAMILY_VENDOR[r["family_code"]]] += 1
+    n = len(rows)
+    role_order = {A.NATIONAL: 0, A.DOMESTIC: 1, A.NICHE: 2}
+    vendor_rows = "".join(
+        f'<tr><td>{e(v["name"])}</td><td>{e(v["type"])}</td>'
+        f'<td class="mono">{e(v.get("showroom", "&mdash;"))}</td>'
+        f'<td>{e(v["lead_time"]) if v.get("lead_time") and v["lead_time"] != "NOT PUBLISHED" else "<i>not published</i>"}</td>'
+        f'<td class="num">{vend_skus[k]}</td></tr>'
+        for k, v in sorted(A.VENDORS.items(),
+                           key=lambda kv: (role_order.get(kv[1]["type"], 9),
+                                           -vend_skus[kv[0]]))
+        if vend_skus[k]
+    ).replace("&amp;mdash;", "&mdash;").replace("&lt;i&gt;", "<i>").replace("&lt;/i&gt;", "</i>")
+
     page = TEMPLATE.format(
+        nat_n=by_type[A.NATIONAL], nat_pct=100*by_type[A.NATIONAL]/n,
+        dom_n=by_type[A.DOMESTIC], dom_pct=100*by_type[A.DOMESTIC]/n,
+        nic_n=by_type[A.NICHE], nic_pct=100*by_type[A.NICHE]/n,
+        nonnat=round(100*(n-by_type[A.NATIONAL])/n),
+        vendor_rows=vendor_rows,
         blended=f"{blended:.1f}",
         lanes=lane_markup(lanes),
         families=family_markup(rows),
@@ -389,6 +417,19 @@ section {{ padding-top:72px; }}
 .chip {{ border:1px solid var(--rule-2); padding:2px 9px; font-size:11px;
   letter-spacing:.04em; }}
 .range {{ font-size:13px; color:var(--ink); }}
+.chip.vend {{ font-weight:600; letter-spacing:.02em; }}
+.v-nat {{ border-color:var(--best); color:var(--best); }}
+.v-dom {{ border-color:var(--better); color:var(--better); }}
+.v-nic {{ border-color:var(--good); color:var(--good); }}
+.srcline {{ font-family:var(--mono); font-size:11px; color:var(--ink-3);
+  margin:0 0 12px; letter-spacing:.02em; }}
+.vendtable td:first-child {{ font-weight:600; }}
+.vend-legend {{ display:flex; gap:18px; flex-wrap:wrap; font-size:12px;
+  color:var(--ink-3); margin-top:16px; }}
+.vend-legend span::before {{ content:""; display:inline-block; width:9px;
+  height:9px; margin-right:6px; border:2px solid currentColor; }}
+.l-nat {{ color:var(--best); }} .l-dom {{ color:var(--better); }}
+.l-nic {{ color:var(--good); }}
 .note {{ margin:0 0 20px; color:var(--ink-2); font-size:14.5px; max-width:70ch; }}
 
 .specs {{ display:flex; flex-wrap:wrap; gap:1px; background:var(--rule);
@@ -514,6 +555,42 @@ footer code {{ font-family:var(--mono); font-size:12px; color:var(--ink-2); }}
       Classic runs rolled and English arms; Modern runs track, scoop and
       shelter; Casual runs slope and pillow-top.</p>
     </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <h2>Where the line comes from</h2>
+    <p>National brands anchor every tier &mdash; they buy price credibility
+    the customer already believes. They are also capped at 30% of the floor,
+    because they cost margin and they are the SKUs every competitor down the
+    road can also show. The other {nonnat}% is High Point resources, which is
+    where the differentiation lives.</p>
+  </div>
+  <div class="panel">
+    <div class="bar-row"><span class="bar-name">National</span>
+      <span class="bar"><span class="bar-fill" style="background:var(--best);width:{nat_pct:.1f}%"></span></span>
+      <span class="bar-val mono">{nat_n} &middot; {nat_pct:.0f}% (cap 30%)</span></div>
+    <div class="bar-row"><span class="bar-name">Domestic specialist</span>
+      <span class="bar"><span class="bar-fill" style="background:var(--better);width:{dom_pct:.1f}%"></span></span>
+      <span class="bar-val mono">{dom_n} &middot; {dom_pct:.0f}%</span></div>
+    <div class="bar-row"><span class="bar-name">Niche / design-led</span>
+      <span class="bar"><span class="bar-fill" style="background:var(--good);width:{nic_pct:.1f}%"></span></span>
+      <span class="bar-val mono">{nic_n} &middot; {nic_pct:.0f}%</span></div>
+    <div class="tablewrap" style="margin-top:22px">
+      <table class="vendtable">
+        <thead><tr><th>Vendor</th><th>Role</th><th>High Point showroom</th>
+        <th>Lead time</th><th class="num">SKUs</th></tr></thead>
+        <tbody>{vendor_rows}</tbody>
+      </table>
+    </div>
+    <p class="panel-foot">Building and space numbers came from each
+    exhibitor's own High Point directory page. <b>Showroom square footage is
+    not published by any of them</b> &mdash; so scale here is judged on
+    plants, employees and manufacturing footprint, not floor size. A
+    directory listing is also not proof a company is trading: one resource
+    in this category closed permanently in August 2025 with its showroom
+    listing still live. Reconfirm every appointment directly.</p>
   </div>
 </section>
 

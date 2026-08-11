@@ -100,6 +100,7 @@ VENDORS = {
         "tier_role": GOOD,
         # Ashley anchors the opening price point across every category.
         "categories": (STATIONARY, SECTIONAL, MOTION),
+        "showroom": "IHFC H900",
         "note": "Opening-price anchor. Recognized nationally, which is what "
                 "makes the Good tier credible instead of merely cheap.",
     },
@@ -118,9 +119,87 @@ VENDORS = {
         "type": NATIONAL,
         "tier_role": BEST,
         "categories": (MOTION,),
+        "showroom": "IHFC C601",
         "note": "Upper-tier motion anchor. Carries a construction story "
                 "(blue-steel seat spring) that justifies the step above "
                 "La-Z-Boy without leaving the motion category.",
+    },
+    # --- Major High Point stationary resources ---------------------------
+    # See research/highpoint-major-upholstery.md. Selected from the full
+    # 450-company "Upholstered Furniture > Sofas / Loveseats" category list,
+    # not from recall. Building + space from each exhibitor's directory page.
+    "hmrichards": {
+        "name": "H.M. Richards", "type": DOMESTIC, "tier_role": GOOD,
+        "categories": (STATIONARY, SECTIONAL),
+        "showroom": "Market on Green 205/206", "domestic": True,
+        "lead_time": "NOT PUBLISHED",
+        "note": "Cuts its own frames AND its own foam. That vertical "
+                "integration is the reason a domestic sofa can land at "
+                "opening price instead of coming off a container.",
+    },
+    "hughes": {
+        "name": "Hughes Furniture", "type": DOMESTIC, "tier_role": GOOD,
+        "categories": (STATIONARY,),
+        "showroom": "Market on Main, 233 S. Main, Fl 6", "domestic": True,
+        "lead_time": "NOT PUBLISHED",
+        "note": "Builds its own frames. Opening-price domestic backbone.",
+    },
+    "albany": {
+        "name": "Albany Industries", "type": DOMESTIC, "tier_role": GOOD,
+        "categories": (STATIONARY, SECTIONAL),
+        "showroom": "COHP Hamilton 201/218", "domestic": True,
+        "lead_time": "NOT PUBLISHED",
+        "note": "450+ employee Mississippi domestic maker.",
+    },
+    "england": {
+        "name": "England Furniture", "type": DOMESTIC, "tier_role": BETTER,
+        "categories": (STATIONARY, SECTIONAL),
+        "showroom": "Plaza Suites 100", "domestic": True,
+        "parent": "La-Z-Boy Inc.",
+        "lead_time": "21-day custom quick-ship (verified)",
+        "note": "1,400 employees, 1.1M sq ft Tennessee campus. The 21-day "
+                "custom program is the best answer to delivery risk in this "
+                "band. Publishes construction (sinuous wire back and seat, "
+                "ventilated reversible block foam) and dealer-visible "
+                "starting prices (~$1,233 on Rochelle 4005). NOTE: owned by "
+                "La-Z-Boy Inc. -- not a national brand on the floor, but it "
+                "concentrates parent-company exposure. See parent check.",
+    },
+    "jackson": {
+        "name": "Jackson Furniture", "type": DOMESTIC, "tier_role": BETTER,
+        "categories": (STATIONARY, SECTIONAL),
+        "showroom": "Plaza Suites 300", "domestic": True,
+        "lead_time": "NOT PUBLISHED",
+        "note": "10 plants, 1,500+ people. Clean Jackson-stationary / "
+                "Catnapper-motion split. Best free public spec data found: "
+                "piece-by-piece frame tables with dimensions, named "
+                "coil-spring seating, Steel Tech framing.",
+    },
+    "besthome": {
+        "name": "Best Home Furnishings", "type": DOMESTIC, "tier_role": BETTER,
+        "categories": (STATIONARY, SECTIONAL),
+        "showroom": "239 S. Main", "domestic": True,
+        "lead_time": "NOT PUBLISHED",
+        "note": "1.1M sq ft domestic Indiana, 700+ fabrics, complete "
+                "published dimensions.",
+    },
+    "cmessentials": {
+        "name": "Craftmaster Essentials", "type": DOMESTIC, "tier_role": BETTER,
+        "categories": (STATIONARY,),
+        "showroom": "Suites at Market Square M-4020", "domestic": True,
+        "lead_time": "NOT PUBLISHED",
+        "note": "The Craftmaster tier that lands in band. Deepest cover "
+                "library found, full published dimensional specs, real "
+                "cushion detail (Blend-Down, 2.0 HD/HR foam), lifetime "
+                "frame warranty.",
+    },
+    "craftmaster": {
+        "name": "Craftmaster", "type": DOMESTIC, "tier_role": BEST,
+        "categories": (STATIONARY,),
+        "showroom": "2622 Uwharrie Rd (own building)", "domestic": True,
+        "lead_time": "NOT PUBLISHED",
+        "note": "Main line above Essentials. Carries leather with published "
+                "construction and the same lifetime frame warranty.",
     },
     # --- Niche / design-led High Point resources -------------------------
     # See research/highpoint-niche-upholstery.md for full profiles + sources.
@@ -207,6 +286,21 @@ VENDOR_OBSERVED_RANGES = {
 # appointment. Recorded because a High Point directory listing is NOT evidence
 # a company is still trading.
 DEFUNCT_VENDORS = {
+    "Klaussner": (
+        "Closed August 2023. Confirmed absent from the current High Point "
+        "exhibitor roster. Do not source."
+    ),
+    "Fusion Furniture": (
+        "Closed 18 Dec 2025 under Man Wah ownership. Excellent pure-stationary "
+        "resource historically; program terms are likely still in flux. Do "
+        "not build a plan around it this cycle."
+    ),
+    "Mitchell Gold + Bob Williams": (
+        "Exhibits at IHFC G265, but this is a Surya-owned relaunch, NOT the "
+        "pre-2023 company. Construction, lead times and program terms must be "
+        "re-qualified from scratch -- prior experience with the brand does "
+        "not transfer."
+    ),
     "Leathercraft by OHD": (
         "Closed permanently 31 Aug 2025, but its High Point showroom listing "
         "at 404 N. Wrenn St. was still live at time of research. Reconfirm "
@@ -228,6 +322,12 @@ RANGE_EXCEPTIONS = {
         "Above Ashley's observed $590-$920 manual reclining sofa band. "
         "Deliberate: we buy Ashley's better manual, not its opener. The "
         "opener is built to a spec this line will not carry."
+    ),
+    "QUI-SOF-X": (
+        "Below Younger + Co's observed $1,830 made-to-order low. We buy the "
+        "Quick Ship program -- 6 sofa frames, 6 chairs, 21 fabrics -- which "
+        "prices below full custom by design. Confirm Quick Ship pricing "
+        "specifically; do not accept the made-to-order sheet for this SKU."
     ),
     "STR-PRC-X": (
         "Below Flexsteel's observed $1,898 low. The dealer sample was "
@@ -252,11 +352,15 @@ FAMILY_VENDOR = {
     "FAI": "ashley", "DEN": "ashley", "EAS": "ashley",
     "MAR": "lazboy", "NOR": "lazboy",
     "STR": "flexsteel",
-    # Pending High Point sourcing
-    "ACR": None, "BRN": None, "COR": None,
-    "GLN": None, "HAR": None, "IVY": None, "OAK": None,
-    "LAN": None, "KNG": None,
-    "PEM": None, "QUI": None, "THO": None, "RAV": None,
+    # High Point stationary -- Good
+    "ACR": "hmrichards", "BRN": "hughes", "COR": "albany",
+    # High Point stationary -- Better. Lanmore shares Jackson with Harlow and
+    # Kingsley shares Best Home with Ivywood, matching the platform-sharing
+    # already built into those families: same arm, legs and cover program.
+    "GLN": "england", "HAR": "jackson", "IVY": "besthome",
+    "OAK": "cmessentials", "LAN": "jackson", "KNG": "besthome",
+    # High Point -- Best
+    "PEM": "norwalk", "QUI": "younger", "THO": "craftmaster", "RAV": "norwalk",
 }
 
 
@@ -976,10 +1080,10 @@ SKUS = [
     _s("NOR-PLC-B", "NOR", "Power Reclining Loveseat w/ Console", 1849, 78, 42, 43, 21, 20),
 
     # ---- BEST: 16 SKUs -----------------------------------------------------
-    _s("PEM-SOF-X", "PEM", "Sofa", 1799, 90, 40, 39, 22, 20),
-    _s("PEM-LVS-X", "PEM", "Loveseat", 1699, 67, 40, 39, 22, 20),
-    _s("PEM-CHR-X", "PEM", "Chair", 1099, 42, 40, 39, 22, 20),
-    _s("PEM-OTT-X", "PEM", "Ottoman", 579, 34, 28, 19, 0, 19),
+    _s("PEM-SOF-X", "PEM", "Sofa", 1849, 90, 40, 39, 22, 20),
+    _s("PEM-LVS-X", "PEM", "Loveseat", 1749, 67, 40, 39, 22, 20),
+    _s("PEM-CHR-X", "PEM", "Chair", 1149, 42, 40, 39, 22, 20),
+    _s("PEM-OTT-X", "PEM", "Ottoman", 599, 34, 28, 19, 0, 19),
 
     _s("QUI-SOF-X", "QUI", "Sofa", 1749, 87, 38, 32, 23, 18),
     _s("QUI-LVS-X", "QUI", "Loveseat", 1599, 64, 38, 32, 23, 18),

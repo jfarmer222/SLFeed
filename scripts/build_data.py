@@ -13,7 +13,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(os.path.dirname(HERE), "data")
 
 SKU_COLUMNS = [
-    "sku_id", "family_code", "family", "tier", "territory", "category",
+    "sku_id", "family_code", "family", "vendor", "vendor_type", "tier",
+    "territory", "category",
     "piece_type", "retail", "landed_cogs", "margin_pct", "margin_dollars",
     "arm", "back", "seat", "suspension", "frame", "joinery", "legs",
     "fabric", "rub_count", "mechanism", "covers",
@@ -34,7 +35,8 @@ def write_sku_master():
 def write_frame_families():
     path = os.path.join(DATA, "frame_families.csv")
     cols = [
-        "family_code", "family", "tier", "territory", "category", "sku_count",
+        "family_code", "family", "vendor", "vendor_type", "tier", "territory",
+        "category", "sku_count",
         "retail_low", "retail_high", "margin_target_pct", "covers",
         "arm", "back", "seat", "suspension", "frame", "joinery", "legs",
         "fabric", "rub_count", "mechanism", "design_note", "rsa_story",
@@ -52,6 +54,8 @@ def write_frame_families():
             w.writerow({
                 "family_code": code,
                 "family": fam["name"],
+                "vendor": (A.vendor_of(code) or {}).get("name", "TBD"),
+                "vendor_type": (A.vendor_of(code) or {}).get("type", "Unsourced"),
                 "tier": fam["tier"],
                 "territory": fam["territory"],
                 "category": fam["category"],

@@ -74,6 +74,81 @@ ANCHOR_MAP = {
     "Power Recliner": "Recliner",
 }
 
+
+# --- Vendor architecture -----------------------------------------------------
+# The floor is anchored by national brands the customer already trusts, but
+# they are deliberately capped: national brands buy price credibility and
+# traffic, and they cost margin and differentiation. Everything above the cap
+# comes from High Point resources that competitors down the road cannot show.
+
+NATIONAL = "National brand"
+DOMESTIC = "Domestic specialist"
+IMPORT = "Import specialist"
+NICHE = "Niche / design-led"
+
+# Ceiling on national-brand presence, measured as a share of SKU count.
+# NOTE: the stated rule is "no more than 30% of SPACE". SKU count is the proxy
+# used here because square-footage-per-SKU is not modeled. Sectionals and
+# motion consume far more floor than a chair, so before this goes to a floor
+# plan the cap must be re-checked against real footprint. See docs.
+NATIONAL_SPACE_CAP = 0.30
+
+VENDORS = {
+    "ashley": {
+        "name": "Ashley",
+        "type": NATIONAL,
+        "tier_role": GOOD,
+        # Ashley anchors the opening price point across every category.
+        "categories": (STATIONARY, SECTIONAL, MOTION),
+        "note": "Opening-price anchor. Recognized nationally, which is what "
+                "makes the Good tier credible instead of merely cheap.",
+    },
+    "lazboy": {
+        "name": "La-Z-Boy",
+        "type": NATIONAL,
+        "tier_role": BETTER,
+        # Motion only -- La-Z-Boy's name equity is in recliners, and using it
+        # on stationary would spend that equity where it does not carry.
+        "categories": (MOTION,),
+        "note": "Middle-tier motion anchor. The name IS the motion category "
+                "for most customers; it does the selling before the RSA does.",
+    },
+    "flexsteel": {
+        "name": "Flexsteel",
+        "type": NATIONAL,
+        "tier_role": BEST,
+        "categories": (MOTION,),
+        "note": "Upper-tier motion anchor. Carries a construction story "
+                "(blue-steel seat spring) that justifies the step above "
+                "La-Z-Boy without leaving the motion category.",
+    },
+}
+
+# Which vendor supplies each frame family. Non-national assignments are filled
+# from the High Point research in research/ -- None means not yet sourced.
+FAMILY_VENDOR = {
+    # National anchors
+    "FAI": "ashley", "DEN": "ashley", "EAS": "ashley",
+    "MAR": "lazboy", "NOR": "lazboy",
+    "STR": "flexsteel",
+    # Pending High Point sourcing
+    "ACR": None, "BRN": None, "COR": None,
+    "GLN": None, "HAR": None, "IVY": None, "OAK": None,
+    "LAN": None, "KNG": None,
+    "PEM": None, "QUI": None, "THO": None, "RAV": None,
+}
+
+
+def vendor_of(family_code):
+    key = FAMILY_VENDOR.get(family_code)
+    return VENDORS.get(key) if key else None
+
+
+def is_national(family_code):
+    v = vendor_of(family_code)
+    return bool(v and v["type"] == NATIONAL)
+
+
 # --- Frame families ----------------------------------------------------------
 # 19 families. Construction specs are family-level; pieces inherit them.
 
@@ -109,7 +184,7 @@ FAMILIES = {
             "lot more for."
         ),
     },
-    "ASH": {
+    "ACR": {
         "name": "Ashcroft",
         "tier": GOOD,
         "territory": CLASSIC,
@@ -683,10 +758,10 @@ SKUS = [
     _s("FAI-LVS-G", "FAI", "Loveseat", 649, 60, 36, 37, 20, 19),
     _s("FAI-CHR-G", "FAI", "Chair", 449, 37, 36, 37, 20, 19),
 
-    _s("ASH-SOF-G", "ASH", "Sofa", 849, 86, 38, 38, 21, 19),
-    _s("ASH-LVS-G", "ASH", "Loveseat", 799, 63, 38, 38, 21, 19),
-    _s("ASH-CHR-G", "ASH", "Chair", 529, 40, 38, 38, 21, 19),
-    _s("ASH-OTT-G", "ASH", "Ottoman", 299, 30, 24, 18, 0, 18),
+    _s("ACR-SOF-G", "ACR", "Sofa", 849, 86, 38, 38, 21, 19),
+    _s("ACR-LVS-G", "ACR", "Loveseat", 799, 63, 38, 38, 21, 19),
+    _s("ACR-CHR-G", "ACR", "Chair", 529, 40, 38, 38, 21, 19),
+    _s("ACR-OTT-G", "ACR", "Ottoman", 299, 30, 24, 18, 0, 18),
 
     _s("BRN-SOF-G", "BRN", "Sofa", 799, 84, 36, 34, 22, 18),
     _s("BRN-LVS-G", "BRN", "Loveseat", 749, 61, 36, 34, 22, 18),
@@ -784,7 +859,7 @@ SKUS = [
 # defensible.
 
 LANES = {
-    "Classic Transitional sofa": ["ASH-SOF-G", "GLN-SOF-B", "PEM-SOF-X"],
+    "Classic Transitional sofa": ["ACR-SOF-G", "GLN-SOF-B", "PEM-SOF-X"],
     "Modern Transitional sofa": ["BRN-SOF-G", "HAR-SOF-B", "QUI-SOF-X"],
     "Casual Transitional sofa": ["COR-SOF-G", "IVY-SOF-B", "RAV-SOF-X"],
     "Sectional (2-Pc chaise)": ["DEN-SC2-G", "LAN-SC2-B"],
@@ -851,6 +926,8 @@ def enriched():
             "sku_id": s["sku_id"],
             "family_code": s["family"],
             "family": fam["name"],
+            "vendor": (vendor_of(s["family"]) or {}).get("name", "TBD"),
+            "vendor_type": (vendor_of(s["family"]) or {}).get("type", "Unsourced"),
             "tier": fam["tier"],
             "territory": fam["territory"],
             "category": fam["category"],

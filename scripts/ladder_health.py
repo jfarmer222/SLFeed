@@ -191,6 +191,54 @@ def check_proliferation(rows):
            f"({total_orderable - stocked:,} shifted to custom order)")
 
 
+def check_vendor_architecture(rows):
+    """National brands anchor each tier but must not take over the floor."""
+    nat = [r for r in rows if r["vendor_type"] == A.NATIONAL]
+    share = len(nat) / len(rows)
+    level = "PASS" if share <= A.NATIONAL_SPACE_CAP else "FAIL"
+    record(level, "National cap",
+           f"National brands {len(nat)}/{len(rows)} SKUs = {share:.1%} "
+           f"(cap {A.NATIONAL_SPACE_CAP:.0%} of space)")
+
+    by_vendor = defaultdict(list)
+    for r in nat:
+        by_vendor[r["vendor"]].append(r)
+    for name, rs in sorted(by_vendor.items()):
+        cats = sorted({r["category"] for r in rs})
+        tiers = sorted({r["tier"] for r in rs})
+        record("INFO", "National anchor",
+               f"{name}: {len(rs)} SKUs | {', '.join(tiers)} | "
+               f"{', '.join(cats)}")
+
+    # Category restrictions -- La-Z-Boy and Flexsteel are motion-only.
+    for code, key in A.FAMILY_VENDOR.items():
+        if not key:
+            continue
+        v = A.VENDORS[key]
+        cat = A.FAMILIES[code]["category"]
+        if cat not in v["categories"]:
+            record("FAIL", "Vendor category",
+                   f"{A.FAMILIES[code]['name']} ({code}) is {cat} but "
+                   f"{v['name']} is restricted to "
+                   f"{'/'.join(v['categories'])}")
+
+    # Every tier needs a national anchor to hold its price credibility.
+    for tier in (A.GOOD, A.BETTER, A.BEST):
+        anchors = {r["vendor"] for r in nat if r["tier"] == tier}
+        if anchors:
+            record("PASS", "Tier anchor",
+                   f"{tier} anchored by {', '.join(sorted(anchors))}")
+        else:
+            record("FAIL", "Tier anchor", f"{tier} has no national anchor")
+
+    unsourced = [r for r in rows if r["vendor"] == "TBD"]
+    if unsourced:
+        fams = sorted({r["family"] for r in unsourced})
+        record("FLAG", "Sourcing",
+               f"{len(unsourced)} SKUs across {len(fams)} families not yet "
+               f"assigned to a vendor: {', '.join(fams)}")
+
+
 def check_construction_progression():
     """Suspension and joinery must never regress as tier rises."""
     susp_rank = {"Elastic webbing": 0, "Sinuous": 1, "Pocketed coil": 2,
@@ -243,6 +291,7 @@ def main():
 
     check_margins(rows)
     check_price_bands(rows)
+    check_vendor_architecture(rows)
     check_tier_mix(rows)
     check_style_balance(rows)
     check_lanes(rows)

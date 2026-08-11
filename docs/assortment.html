@@ -1,0 +1,936 @@
+<title>Line Review &mdash; 65-SKU Upholstery Assortment</title>
+<style>
+:root {
+  --ground:#F2F3F1; --surface:#FFFFFF; --surface-2:#EAECE9;
+  --ink:#16191C; --ink-2:#454B4E; --ink-3:#6E7570;
+  --rule:#D6D9D4; --rule-2:#C3C7C1;
+  --accent:#2F4A5C;
+  --good:#6E8375; --better:#3F6B7D; --best:#A67A3C;
+  --good-soft:#E4EAE4; --better-soft:#DFE8ED; --best-soft:#F0E6D6;
+  --shadow:0 1px 2px rgba(22,25,28,.05), 0 8px 24px -12px rgba(22,25,28,.14);
+  --serif:ui-serif,"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark) {
+  :root:not([data-theme="light"]) {
+    --ground:#14171A; --surface:#1B1F23; --surface-2:#22272C;
+    --ink:#E9EBE8; --ink-2:#B3BAB6; --ink-3:#89918D;
+    --rule:#2C3237; --rule-2:#3A4147;
+    --accent:#8FB3C7;
+    --good:#9BB3A2; --better:#7FAAC0; --best:#C9A268;
+    --good-soft:#222A25; --better-soft:#1E2A31; --best-soft:#2C2418;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"] {
+  --ground:#14171A; --surface:#1B1F23; --surface-2:#22272C;
+  --ink:#E9EBE8; --ink-2:#B3BAB6; --ink-3:#89918D;
+  --rule:#2C3237; --rule-2:#3A4147;
+  --accent:#8FB3C7;
+  --good:#9BB3A2; --better:#7FAAC0; --best:#C9A268;
+  --good-soft:#222A25; --better-soft:#1E2A31; --best-soft:#2C2418;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+}
+
+*,*::before,*::after { box-sizing:border-box; }
+body {
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:var(--sans); font-size:16px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap { max-width:1080px; margin:0 auto; padding:0 24px 96px; }
+h1,h2,h3,h4 { font-family:var(--serif); font-weight:600; text-wrap:balance;
+  line-height:1.15; margin:0; letter-spacing:-.01em; }
+.mono { font-family:var(--mono); font-variant-numeric:tabular-nums; }
+.num { text-align:right; font-family:var(--mono); font-variant-numeric:tabular-nums; }
+.dim { color:var(--ink-3); }
+
+/* ---- masthead ---- */
+.mast { padding:72px 0 40px; border-bottom:2px solid var(--ink); }
+.eyebrow { font-family:var(--mono); font-size:11px; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 20px; }
+.mast h1 { font-size:clamp(38px,6vw,64px); margin:0 0 20px; }
+.lede { font-size:19px; line-height:1.55; color:var(--ink-2);
+  max-width:60ch; margin:0; }
+.lede b { color:var(--ink); font-weight:600; }
+
+.keystats { display:grid; gap:1px; background:var(--rule);
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  border:1px solid var(--rule); margin:40px 0 0; }
+.keystats > div { background:var(--surface); padding:18px 20px; }
+.keystats dt { font-family:var(--mono); font-size:10px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 8px; }
+.keystats dd { margin:0; font-family:var(--serif); font-size:30px;
+  font-variant-numeric:tabular-nums; line-height:1; }
+.keystats dd small { font-size:13px; color:var(--ink-3); font-family:var(--sans);
+  display:block; margin-top:7px; letter-spacing:0; }
+
+/* ---- sections ---- */
+section { padding-top:72px; }
+.sec-head { margin-bottom:28px; }
+.sec-head h2 { font-size:30px; margin-bottom:10px; }
+.sec-head p { color:var(--ink-2); max-width:62ch; margin:0; }
+
+/* ---- ladder plot ---- */
+.ladder { background:var(--surface); border:1px solid var(--rule);
+  padding:32px 28px 20px; box-shadow:var(--shadow); overflow-x:auto; }
+.ladder-inner { min-width:640px; }
+.axis { position:relative; height:22px; margin-bottom:8px;
+  border-bottom:1px solid var(--rule-2); }
+.axis span { position:absolute; transform:translateX(-50%); font-family:var(--mono);
+  font-size:10px; color:var(--ink-3); letter-spacing:.06em; }
+.lane { padding:16px 0 4px; border-bottom:1px solid var(--rule); }
+.lane:last-child { border-bottom:0; }
+.lane-head { display:flex; align-items:baseline; justify-content:space-between;
+  gap:16px; margin-bottom:26px; }
+.lane-head h4 { font-size:15px; }
+.spread { font-family:var(--mono); font-size:11px; color:var(--ink-3);
+  letter-spacing:.06em; white-space:nowrap; }
+.track { position:relative; height:46px; }
+.track-line { position:absolute; top:5px; height:2px; background:var(--rule-2); }
+.rung { position:absolute; top:0; }
+.rung .dot { display:block; width:12px; height:12px; border-radius:50%;
+  border:2px solid var(--surface); margin-left:-6px;
+  box-shadow:0 0 0 1.5px currentColor; background:currentColor; }
+.rung-label { position:absolute; top:17px; left:0; transform:translateX(-50%);
+  white-space:nowrap; text-align:center; }
+.rung-label b { display:block; font-size:12px; font-weight:600; color:var(--ink);
+  line-height:1.3; }
+.rung-label i { display:block; font-style:normal; font-family:var(--mono);
+  font-size:11px; color:var(--ink-3); font-variant-numeric:tabular-nums; }
+.step { position:absolute; top:-16px; transform:translateX(-50%);
+  font-family:var(--mono); font-size:10px; color:var(--ink-3);
+  letter-spacing:.04em; }
+.t-good .dot, .t-good.rung { color:var(--good); }
+.t-better .dot, .t-better.rung { color:var(--better); }
+.t-best .dot, .t-best.rung { color:var(--best); }
+
+/* ---- mix bars ---- */
+.mixgrid { display:grid; gap:32px; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); }
+.panel { background:var(--surface); border:1px solid var(--rule); padding:24px;
+  box-shadow:var(--shadow); }
+.panel h3 { font-size:16px; margin-bottom:18px; }
+.bar-row { display:grid; grid-template-columns:minmax(96px,auto) 1fr auto;
+  align-items:center; gap:14px; margin-bottom:12px; }
+.bar-name { font-size:13px; color:var(--ink-2); }
+.bar { height:9px; background:var(--surface-2); position:relative; }
+.bar-fill { position:absolute; inset:0 auto 0 0; background:var(--accent); }
+.t-good .bar-fill { background:var(--good); }
+.t-better .bar-fill { background:var(--better); }
+.t-best .bar-fill { background:var(--best); }
+.bar-val { font-size:11px; color:var(--ink-3); white-space:nowrap; }
+.panel-foot { font-size:12px; color:var(--ink-3); line-height:1.6;
+  margin:18px 0 0; padding-top:14px; border-top:1px solid var(--rule); }
+
+/* ---- tiers ---- */
+.tier-head { display:flex; align-items:flex-end; justify-content:space-between;
+  gap:24px; flex-wrap:wrap; padding-bottom:14px; margin-bottom:28px;
+  border-bottom:2px solid currentColor; }
+.tier.t-good .tier-head { color:var(--good); }
+.tier.t-better .tier-head { color:var(--better); }
+.tier.t-best .tier-head { color:var(--best); }
+.tier-head h2 { font-size:34px; color:inherit; }
+.tier-stats { display:flex; gap:28px; margin:0; flex-wrap:wrap; color:var(--ink); }
+.tier-stats dt { font-family:var(--mono); font-size:10px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); }
+.tier-stats dd { margin:2px 0 0; font-family:var(--mono); font-size:15px;
+  font-variant-numeric:tabular-nums; }
+.families { display:flex; flex-direction:column; gap:20px; }
+
+.family { background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--rule-2); padding:24px 26px; box-shadow:var(--shadow); }
+.family.t-good { border-left-color:var(--good); }
+.family.t-better { border-left-color:var(--better); }
+.family.t-best { border-left-color:var(--best); }
+.fam-head { display:flex; justify-content:space-between; align-items:flex-start;
+  gap:20px; flex-wrap:wrap; margin-bottom:14px; }
+.fam-id { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; }
+.code { font-size:11px; letter-spacing:.1em; color:var(--ink-3);
+  border:1px solid var(--rule-2); padding:2px 7px; }
+.fam-id h3 { font-size:23px; }
+.terr { font-size:12px; color:var(--ink-3); }
+.fam-meta { display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  font-size:12px; color:var(--ink-3); }
+.chip { border:1px solid var(--rule-2); padding:2px 9px; font-size:11px;
+  letter-spacing:.04em; }
+.range { font-size:13px; color:var(--ink); }
+.note { margin:0 0 20px; color:var(--ink-2); font-size:14.5px; max-width:70ch; }
+
+.specs { display:flex; flex-wrap:wrap; gap:1px; background:var(--rule);
+  border:1px solid var(--rule); margin-bottom:20px; }
+.spec { background:var(--surface); padding:10px 13px; flex:1 1 232px; }
+.spec dt { font-family:var(--mono); font-size:9.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin-bottom:3px; }
+.spec dd { margin:0; font-size:13px; line-height:1.45; }
+
+.tablewrap { overflow-x:auto; margin-bottom:18px; }
+table { border-collapse:collapse; width:100%; font-size:13px; }
+th { font-family:var(--mono); font-size:9.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); font-weight:400;
+  text-align:left; padding:0 12px 7px 0; border-bottom:1px solid var(--rule-2); }
+th.num { text-align:right; }
+td { padding:7px 12px 7px 0; border-bottom:1px solid var(--rule); }
+td:last-child, th:last-child { padding-right:0; }
+tr:last-child td { border-bottom:0; }
+
+.rsa { margin:0; padding:14px 18px; background:var(--surface-2);
+  border-left:2px solid var(--rule-2); font-family:var(--serif);
+  font-size:15px; line-height:1.5; color:var(--ink-2); }
+.rsa-label { display:block; font-family:var(--mono); font-size:9.5px;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3);
+  margin-bottom:6px; }
+
+/* ---- cut features / open items ---- */
+.cards { display:grid; gap:20px; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); }
+.cut { background:var(--surface); border:1px solid var(--rule); padding:24px;
+  box-shadow:var(--shadow); }
+.cut h3 { font-size:18px; margin-bottom:6px; }
+.cut .verdict { font-family:var(--mono); font-size:10px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--best); margin-bottom:14px; }
+.cut p { margin:0 0 12px; font-size:14.5px; color:var(--ink-2); }
+.cut p:last-child { margin-bottom:0; }
+.cut dl { margin:0 0 14px; display:grid; gap:7px; }
+.cut dl > div { display:flex; gap:10px; font-size:13px; }
+.cut dt { font-family:var(--mono); font-size:10px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--ink-3); min-width:96px; padding-top:3px; }
+.cut dd { margin:0; color:var(--ink-2); }
+
+.openlist { list-style:none; padding:0; margin:0; display:grid; gap:2px;
+  background:var(--rule); border:1px solid var(--rule); }
+.openlist li { background:var(--surface); padding:18px 22px; }
+.openlist h4 { font-size:15px; margin-bottom:6px; }
+.openlist p { margin:0; font-size:14px; color:var(--ink-2); max-width:70ch; }
+.tag { font-family:var(--mono); font-size:9.5px; letter-spacing:.13em;
+  text-transform:uppercase; padding:2px 7px; border:1px solid var(--rule-2);
+  color:var(--ink-3); margin-left:10px; vertical-align:2px; }
+
+footer { margin-top:80px; padding-top:24px; border-top:1px solid var(--rule);
+  font-size:13px; color:var(--ink-3); }
+footer code { font-family:var(--mono); font-size:12px; color:var(--ink-2); }
+
+@media (max-width:620px) {
+  .wrap { padding:0 16px 64px; }
+  .mast { padding-top:48px; }
+  .family { padding:20px 18px; }
+}
+</style>
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="eyebrow">Line Review &middot; Stationary + Motion Upholstery</p>
+  <h1>Sixty-five pieces,<br>one transitional language.</h1>
+  <p class="lede">A Good/Better/Best upholstery line for a mid-market,
+  ~125-store retailer. Nineteen frame families across stationary seating,
+  sectionals and motion &mdash; <b>every SKU costed against a component
+  build-up and validated by scripts that fail the build if the ladder
+  breaks.</b></p>
+
+  <dl class="keystats">
+    <div><dt>Sellable pieces</dt><dd>65<small>19 frame families</small></dd></div>
+    <div><dt>Blended margin</dt><dd>52.8%<small>rising every tier</small></dd></div>
+    <div><dt>Orderable SKUs</dt><dd>598<small>499 stocked &middot; 99 custom-order</small></dd></div>
+    <div><dt>Ladder health</dt><dd>0<small>failures across 65 SKUs</small></dd></div>
+  </dl>
+</header>
+
+<section>
+  <div class="sec-head">
+    <h2>Trade-up lanes</h2>
+    <p>A tier average proves nothing. What matters is whether one customer can
+    walk a like-for-like path from Good to Best. Every lane in the line, plotted
+    on a real price axis &mdash; the gaps are the argument.</p>
+  </div>
+  <div class="ladder">
+    <div class="ladder-inner">
+      <div class="axis">
+        <span style="left:3.1%">$500</span>
+        <span style="left:18.8%">$1,000</span>
+        <span style="left:34.4%">$1,500</span>
+        <span style="left:50.0%">$2,000</span>
+        <span style="left:65.6%">$2,500</span>
+        <span style="left:81.3%">$3,000</span>
+        <span style="left:96.9%">$3,500</span>
+      </div>
+      <div class="lane"><div class="lane-head"><h4>Classic Transitional sofa</h4><span class="spread">+112% total</span></div><div class="track"><div class="track-line" style="left:14.03%;width:29.69%"></div><span class="step" style="left:21.06%">+53%</span><span class="step" style="left:35.91%">+38%</span><div class="rung t-good" style="left:14.03%"><span class="dot"></span><span class="rung-label"><b>Ashcroft</b><i>$849</i></span></div><div class="rung t-better" style="left:28.09%"><span class="dot"></span><span class="rung-label"><b>Glenwood</b><i>$1,299</i></span></div><div class="rung t-best" style="left:43.72%"><span class="dot"></span><span class="rung-label"><b>Pemberton</b><i>$1,799</i></span></div></div></div>
+<div class="lane"><div class="lane-head"><h4>Modern Transitional sofa</h4><span class="spread">+119% total</span></div><div class="track"><div class="track-line" style="left:12.47%;width:29.69%"></div><span class="step" style="left:18.72%">+50%</span><span class="step" style="left:33.56%">+46%</span><div class="rung t-good" style="left:12.47%"><span class="dot"></span><span class="rung-label"><b>Brantley</b><i>$799</i></span></div><div class="rung t-better" style="left:24.97%"><span class="dot"></span><span class="rung-label"><b>Harlow</b><i>$1,199</i></span></div><div class="rung t-best" style="left:42.16%"><span class="dot"></span><span class="rung-label"><b>Quincy</b><i>$1,749</i></span></div></div></div>
+<div class="lane"><div class="lane-head"><h4>Casual Transitional sofa</h4><span class="spread">+111% total</span></div><div class="track"><div class="track-line" style="left:15.59%;width:31.25%"></div><span class="step" style="left:22.62%">+50%</span><span class="step" style="left:38.25%">+41%</span><div class="rung t-good" style="left:15.59%"><span class="dot"></span><span class="rung-label"><b>Cordell</b><i>$899</i></span></div><div class="rung t-better" style="left:29.66%"><span class="dot"></span><span class="rung-label"><b>Ivywood</b><i>$1,349</i></span></div><div class="rung t-best" style="left:46.84%"><span class="dot"></span><span class="rung-label"><b>Ravenswood</b><i>$1,899</i></span></div></div></div>
+<div class="lane"><div class="lane-head"><h4>Sectional (2-Pc chaise)</h4><span class="spread">+45% total</span></div><div class="track"><div class="track-line" style="left:21.84%;width:15.62%"></div><span class="step" style="left:29.66%">+45%</span><div class="rung t-good" style="left:21.84%"><span class="dot"></span><span class="rung-label"><b>Denby</b><i>$1,099</i></span></div><div class="rung t-better" style="left:37.47%"><span class="dot"></span><span class="rung-label"><b>Lanmore</b><i>$1,599</i></span></div></div></div>
+<div class="lane"><div class="lane-head"><h4>Sectional (3-Pc)</h4><span class="spread">+93% total</span></div><div class="track"><div class="track-line" style="left:31.22%;width:40.62%"></div><span class="step" style="left:40.59%">+43%</span><span class="step" style="left:60.91%">+35%</span><div class="rung t-good" style="left:31.22%"><span class="dot"></span><span class="rung-label"><b>Denby</b><i>$1,399</i></span></div><div class="rung t-better" style="left:49.97%"><span class="dot"></span><span class="rung-label"><b>Kingsley</b><i>$1,999</i></span></div><div class="rung t-best" style="left:71.84%"><span class="dot"></span><span class="rung-label"><b>Ravenswood</b><i>$2,699</i></span></div></div></div>
+<div class="lane"><div class="lane-head"><h4>Recliner</h4><span class="spread">+160% total</span></div><div class="track"><div class="track-line" style="left:3.09%;width:25.00%"></div><span class="step" style="left:6.22%">+40%</span><span class="step" style="left:12.47%">+29%</span><span class="step" style="left:21.84%">+44%</span><div class="rung t-good" style="left:3.09%"><span class="dot"></span><span class="rung-label"><b>Easton</b><i>$499</i></span></div><div class="rung t-better" style="left:9.34%"><span class="dot"></span><span class="rung-label"><b>Marchetti</b><i>$699</i></span></div><div class="rung t-better" style="left:15.59%"><span class="dot"></span><span class="rung-label"><b>Northfield</b><i>$899</i></span></div><div class="rung t-best" style="left:28.09%"><span class="dot"></span><span class="rung-label"><b>Stratton</b><i>$1,299</i></span></div></div></div>
+<div class="lane"><div class="lane-head"><h4>Reclining sofa</h4><span class="spread">+180% total</span></div><div class="track"><div class="track-line" style="left:18.72%;width:56.25%"></div><span class="step" style="left:25.75%">+45%</span><span class="step" style="left:39.81%">+31%</span><span class="step" style="left:60.91%">+47%</span><div class="rung t-good" style="left:18.72%"><span class="dot"></span><span class="rung-label"><b>Easton</b><i>$999</i></span></div><div class="rung t-better" style="left:32.78%"><span class="dot"></span><span class="rung-label"><b>Marchetti</b><i>$1,449</i></span></div><div class="rung t-better" style="left:46.84%"><span class="dot"></span><span class="rung-label"><b>Northfield</b><i>$1,899</i></span></div><div class="rung t-best" style="left:74.97%"><span class="dot"></span><span class="rung-label"><b>Stratton</b><i>$2,799</i></span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <h2>How the line is balanced</h2>
+    <p>Better carries the most SKUs because that is where a mid-market
+    assortment does its volume. The three style territories are three
+    expressions of one transitional language, not three competing ones.</p>
+  </div>
+  <div class="mixgrid">
+    <div class="panel">
+      <h3>Tier mix</h3>
+      <div class="bar-row t-good"><span class="bar-name">Good</span><span class="bar"><span class="bar-fill" style="width:29.2%"></span></span><span class="bar-val mono">19 &middot; 29%</span></div><div class="bar-row t-better"><span class="bar-name">Better</span><span class="bar"><span class="bar-fill" style="width:44.6%"></span></span><span class="bar-val mono">29 &middot; 45%</span></div><div class="bar-row t-best"><span class="bar-name">Best</span><span class="bar"><span class="bar-fill" style="width:26.2%"></span></span><span class="bar-val mono">17 &middot; 26%</span></div>
+      <p class="panel-foot">
+      Avg retail $731 / $1,198 / $1,967 &middot;
+      blended GM 49.3% / 52.3% / 54.7%</p>
+    </div>
+    <div class="panel">
+      <h3>Style territory</h3>
+      <div class="bar-row"><span class="bar-name">Classic Transitional</span><span class="bar"><span class="bar-fill" style="width:33.8%"></span></span><span class="bar-val mono">22 &middot; 34%</span></div><div class="bar-row"><span class="bar-name">Modern Transitional</span><span class="bar"><span class="bar-fill" style="width:33.8%"></span></span><span class="bar-val mono">22 &middot; 34%</span></div><div class="bar-row"><span class="bar-name">Casual Transitional</span><span class="bar"><span class="bar-fill" style="width:32.3%"></span></span><span class="bar-val mono">21 &middot; 32%</span></div>
+      <p class="panel-foot">
+      Classic runs rolled and English arms; Modern runs track, scoop and
+      shelter; Casual runs slope and pillow-top.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <h2>What the cost audit cut</h2>
+    <p>The price-coherence check rejected the first draft of this line in seven
+    places. Two Best-tier features were specced, costed, and then deliberately
+    removed &mdash; good product engineering is as much about what you refuse to
+    build.</p>
+  </div>
+  <div class="cards">
+    <div class="cut">
+      <h3>8-way hand-tied suspension</h3>
+      <p class="verdict">Specced &rarr; cut</p>
+      <dl>
+        <div><dt>Cost</dt><dd>~$195 on a sofa &mdash; 24% of Pemberton's entire COGS budget</dd></div>
+        <div><dt>Perceptible</dt><dd>Effectively zero against well-executed pocketed coil in a showroom sit</dd></div>
+        <div><dt>Benefit</dt><dd>Real, but purely longevity</dd></div>
+      </dl>
+      <p>The freed budget went to pocketed coil suspension, down-blend back
+      pillows, kiln-dried maple and mortise-and-tenon joinery &mdash; one felt
+      immediately, two that genuinely extend the life of the frame. Keeping it
+      would have been textbook feature-dumping.</p>
+    </div>
+    <div class="cut">
+      <h3>Coil-on-coil seat construction</h3>
+      <p class="verdict">Specced &rarr; cut</p>
+      <dl>
+        <div><dt>Cost</dt><dd>~$45 per seating position on top of coil suspension</dd></div>
+        <div><dt>Competed with</dt><dd>Quincy's scoop arm and solid brass legs</dd></div>
+        <div><dt>Rule applied</dt><dd>The arm is the product; the budget follows the arm</dd></div>
+      </dl>
+      <p>A great story and a real cost. On the line's design halo it was
+      competing directly with the two things that actually sell that SKU.</p>
+    </div>
+    <div class="cut">
+      <h3>Down moved from seats to backs</h3>
+      <p class="verdict">Relocated</p>
+      <dl>
+        <div><dt>Seat envelope</dt><dd>~$55 per position &mdash; $385 across a 7-seat modular</dd></div>
+        <div><dt>Back pillow</dt><dd>About a third of that</dd></div>
+        <div><dt>Where it's felt</dt><dd>Against the shoulders, not under the thighs</dd></div>
+      </dl>
+      <p>Down-blend seats broke the Best sectional band outright. Seats run
+      2.2&nbsp;lb HR foam with a thick fiber wrap; the down went where the
+      customer actually registers it.</p>
+    </div>
+  </div>
+</section>
+
+
+<section class="tier t-good" id="tier-good">
+  <header class="tier-head">
+    <h2>Good</h2>
+    <dl class="tier-stats">
+      <div><dt>Families</dt><dd>6</dd></div>
+      <div><dt>SKUs</dt><dd>19</dd></div>
+      <div><dt>Retail range</dt><dd>$299&ndash;$1,399</dd></div>
+      <div><dt>Blended GM</dt><dd>49.3%</dd></div>
+    </dl>
+  </header>
+  <div class="families">
+<article class="family t-good">
+  <header class="fam-head">
+    <div class="fam-id">
+      <span class="code mono">FAI</span>
+      <h3>Fairhaven</h3>
+      <span class="terr">Classic Transitional</span>
+    </div>
+    <div class="fam-meta">
+      <span class="chip">Stationary</span>
+      <span class="range mono">$449&ndash;$699</span>
+      <span class="count">3 SKUs</span>
+    </div>
+  </header>
+  <p class="note">The opening price statement. Scale is pulled in deliberately (82&quot; sofa) so the piece reads tailored rather than cheap. All the COGS that is here is in the silhouette and the welt &mdash; nothing is spent where the customer cannot see it.</p>
+  <div class="specs"><div class="spec"><dt>Arm</dt><dd>Rolled (sock) arm, self welt</dd></div><div class="spec"><dt>Back</dt><dd>Tight back, foam + fiber</dd></div><div class="spec"><dt>Seat</dt><dd>1.8 lb standard poly HD foam, dacron wrap</dd></div><div class="spec"><dt>Suspension</dt><dd>Sinuous spring, 8.5 ga, 4&quot; spacing</dd></div><div class="spec"><dt>Frame</dt><dd>Engineered hardwood (LVL + plywood), corner-blocked</dd></div><div class="spec"><dt>Joinery</dt><dd>Staple-and-glue with corner blocks</dd></div><div class="spec"><dt>Legs</dt><dd>Tapered resin leg, espresso finish</dd></div><div class="spec"><dt>Cover</dt><dd>4 covers &mdash; 3 neutral, 1 blue &mdash; all one price grade</dd></div><div class="spec"><dt>Fabric</dt><dd>Poly-blend performance flat weave (15,000 double rubs)</dd></div></div>
+  <div class="tablewrap">
+    <table class="pieces">
+      <thead><tr><th>SKU</th><th>Piece</th><th class="num">Retail</th>
+      <th class="num">COGS</th><th class="num">GM</th></tr></thead>
+      <tbody><tr><td class="mono">FAI-SOF-G</td><td>Sofa</td><td class="num">$699</td><td class="num dim">$356</td><td class="num">49.1%</td></tr><tr><td class="mono">FAI-LVS-G</td><td>Loveseat</td><td class="num">$649</td><td class="num dim">$331</td><td class="num">49.0%</td></tr><tr><td class="mono">FAI-CHR-G</td><td>Chair</td><td class="num">$449</td><td class="num dim">$229</td><td class="num">49.0%</td></tr></tbody>
+    </table>
+  </div>
+  <blockquote class="rsa">
+    <span class="rsa-label">Floor story</span>
+    This is the best-looking sofa on our opening price point &mdash; that rolled arm and the welted edge are what you&#x27;d normally pay a lot more for.
+  </blockquote>
+</article>
+<article class="family t-good">
+  <header class="fam-head">
+    <div class="fam-id">
+      <span class="code mono">ASH</span>
+      <h3>Ashcroft</h3>
+      <span class="terr">Classic Transitional</span>
+    </div>
+    <div class="fam-meta">
+      <span class="chip">Stationary</span>
+      <span class="range mono">$299&ndash;$849</span>
+      <span class="count">4 SKUs</span>
+    </div>
+  </header>
+  <p class="note">The Good-tier volume anchor and the trade-up origin for the Classic lane. Attached pillow back buys the look of a loose cushion sofa with none of the fluffing complaints.</p>
+  <div class="specs"><div class="spec"><dt>Arm</dt><dd>Rolled (sock) arm, contrast welt</dd></div><div class="spec"><dt>Back</dt><dd>Attached pillow back</dd></div><div class="spec"><dt>Seat</dt><dd>1.8 lb HD poly foam, dacron wrap</dd></div><div class="spec"><dt>Suspension</dt><dd>Sinuous spring, 8.5 ga, 4&quot; spacing</dd></div><div class="spec"><dt>Frame</dt><dd>Engineered hardwood (LVL + plywood), corner-blocked</dd></div><div class="spec"><dt>Joinery</dt><dd>Staple-and-glue with corner blocks</dd></div><div class="spec"><dt>Legs</dt><dd>Turned wood leg, pecan finish</dd></div><div class="spec"><dt>Cover</dt><dd>4 covers &mdash; 2 neutral, 1 greige, 1 blue &mdash; all one price grade</dd></div><div class="spec"><dt>Fabric</dt><dd>Poly-blend performance flat weave (18,000 double rubs)</dd></div></div>
+  <div class="tablewrap">
+    <table class="pieces">
+      <thead><tr><th>SKU</th><th>Piece</th><th class="num">Retail</th>
+      <th class="num">COGS</th><th class="num">GM</th></tr></thead>
+      <tbody><tr><td class="mono">ASH-SOF-G</td><td>Sofa</td><td class="num">$849</td><td class="num dim">$424</td><td class="num">50.1%</td></tr><tr><td class="mono">ASH-LVS-G</td><td>Loveseat</td><td class="num">$799</td><td class="num dim">$400</td><td class="num">49.9%</td></tr><tr><td class="mono">ASH-CHR-G</td><td>Chair</td><td class="num">$529</td><td class="num dim">$264</td><td class="num">50.1%</td></tr><tr><td class="mono">ASH-OTT-G</td><td>Ottoman</td><td class="num">$299</td><td class="num dim">$150</td><td class="num">49.8%</td></tr></tbody>
+    </table>
+  </div>
+  <blockquote class="rsa">
+    <span class="rsa-label">Floor story</span>
+    The back cushions are attached &mdash; so it looks plush but it never goes lumpy on you, and you never have to fight with it.
+  </blockquote>
+</article>
+<article class="family t-good">
+  <header class="fam-head">
+    <div class="fam-id">
+      <span class="code mono">BRN</span>
+      <h3>Brantley</h3>
+      <span class="terr">Modern Transitional</span>
+    </div>
+    <div class="fam-meta">
+      <span class="chip">Stationary</span>
+      <span class="range mono">$499&ndash;$799</span>
+      <span class="count">3 SKUs</span>
+    </div>
+  </header>
+  <p class="note">Lowest profile in the Good tier at 34&quot; high. Buys the younger customer without asking the Good tier to pay for a track arm&#x27;s tailoring premium &mdash; corners are simple, not mitred.</p>
+  <div class="specs"><div class="spec"><dt>Arm</dt><dd>Square track arm</dd></div><div class="spec"><dt>Back</dt><dd>Attached pillow back, horizontal channel</dd></div><div class="spec"><dt>Seat</dt><dd>1.8 lb HD poly foam, dacron wrap</dd></div><div class="spec"><dt>Suspension</dt><dd>Sinuous spring, 8.5 ga, 4&quot; spacing</dd></div><div class="spec"><dt>Frame</dt><dd>Engineered hardwood (LVL + plywood), corner-blocked</dd></div><div class="spec"><dt>Joinery</dt><dd>Staple-and-glue with corner blocks</dd></div><div class="spec"><dt>Legs</dt><dd>Tapered wood leg, natural oak</dd></div><div class="spec"><dt>Cover</dt><dd>4 covers &mdash; 2 neutral, 1 charcoal, 1 ivory &mdash; all one price grade</dd></div><div class="spec"><dt>Fabric</dt><dd>Poly-blend performance flat weave (18,000 double rubs)</dd></div></div>
+  <div class="tablewrap">
+    <table class="pieces">
+      <thead><tr><th>SKU</th><th>Piece</th><th class="num">Retail</th>
+      <th class="num">COGS</th><th class="num">GM</th></tr></thead>
+      <tbody><tr><td class="mono">BRN-SOF-G</td><td>Sofa</td><td class="num">$799</td><td class="num dim">$411</td><td class="num">48.6%</td></tr><tr><td class="mono">BRN-LVS-G</td><td>Loveseat</td><td class="num">$749</td><td class="num dim">$386</td><td class="num">48.5%</td></tr><tr><td class="mono">BRN-CHR-G</td><td>Chair</td><td class="num">$499</td><td class="num dim">$257</td><td class="num">48.5%</td></tr></tbody>
+    </table>
+  </div>
+  <blockquote class="rsa">
+    <span class="rsa-label">Floor story</span>
+    Clean square arm, low back, oak legs &mdash; this is the look people are pulling off Instagram, at our opening price.
+  </blockquote>
+</article>
+<article class="family t-good">
+  <header class="fam-head">
+    <div class="fam-id">
+      <span class="code mono">COR</span>
+      <h3>Cordell</h3>
+      <span class="terr">Casual Transitional</span>
+    </div>
+    <div class="fam-meta">
+      <span class="chip">Stationary</span>
+      <span class="range mono">$319&ndash;$899</span>
+      <span class="count">4 SKUs</span>
+    </div>
+  </header>
+  <p class="note">The biggest Good-tier footprint at 90&quot; and a 23&quot; seat. Sells on size &mdash; the customer cross-shopping a warehouse club sofa sees this one is genuinely deeper.</p>
+  <div class="specs"><div class="spec"><dt>Arm</dt><dd>Slope (flared) arm</dd></div><div class="spec"><dt>Back</dt><dd>Attached pillow back, two-over-two</dd></div><div class="spec"><dt>Seat</dt><dd>1.8 lb HD poly foam, dacron wrap, 23&quot; seat depth</dd></div><div class="spec"><dt>Suspension</dt><dd>Sinuous spring, 8.5 ga, 4&quot; spacing</dd></div><div class="spec"><dt>Frame</dt><dd>Engineered hardwood (LVL + plywood), corner-blocked</dd></div><div class="spec"><dt>Joinery</dt><dd>Staple-and-glue with corner blocks</dd></div><div class="spec"><dt>Legs</dt><dd>Tapered wood leg, walnut finish</dd></div><div class="spec"><dt>Cover</dt><dd>5 covers &mdash; 2 neutral, 1 sage, 1 rust, 1 blue &mdash; all one price grade</dd></div><div class="spec"><dt>Fabric</dt><dd>Poly-blend performance flat weave (20,000 double rubs)</dd></div></div>
+  <div class="tablewrap">
+    <table class="pieces">
+      <thead><tr><th>SKU</th><th>Piece</th><th class="num">Retail</th>
+      <th class="num">COGS</th><th class="num">GM</th></tr></thead>
+      <tbody><tr><td class="mono">COR-SOF-G</td><td>Sofa</td><td class="num">$899</td><td class="num dim">$445</td><td class="num">50.5%</td></tr><tr><td class="mono">COR-LVS-G</td><td>Loveseat</td><td class="num">$849</td><td class="num dim">$420</td><td class="num">50.5%</td></tr><tr><td class="mono">COR-CHR-G</td><td>Chair</td><td class="num">$559</td><td class="num dim">$277</td><td class="num">50.5%</td></tr><tr><td class="mono">COR-OTT-G</td><td>Ottoman</td><td class="num">$319</td><td class="num dim">$158</td><td class="num">50.5%</td></tr></tbody>
+    </table>
+  </div>
+  <blockquote class="rsa">
+    <span class="rsa-label">Floor story</span>
+    Sit all the way back on this one &mdash; it&#x27;s a full 23 inches deep. Most sofas at this price make you perch.
+  </blockquote>
+</article>
+<article class="family t-good">
+  <header class="fam-head">
+    <div class="fam-id">
+      <span class="code mono">DEN</span>
+      <h3>Denby</h3>
+      <span class="terr">Modern Transitional</span>
+    </div>
+    <div class="fam-meta">
+      <span class="chip">Sectional</span>
+      <span class="range mono">$1,099&ndash;$1,399</span>
+      <span class="count">2 SKUs</span>
+    </div>
+  </header>
+  <p class="note">Sectional entry point. Reversible chaise on the 2-Pc so one SKU covers both room orientations &mdash; halves the floor and inventory burden of a LAF/RAF split at the tier that can least afford it.</p>
+  <div class="specs"><div class="spec"><dt>Arm</dt><dd>Square track arm</dd></div><div class="spec"><dt>Back</dt><dd>Attached pillow back</dd></div><div class="spec"><dt>Seat</dt><dd>1.8 lb HD poly foam, dacron wrap</dd></div><div class="spec"><dt>Suspension</dt><dd>Sinuous spring, 8.5 ga, 4&quot; spacing</dd></div><div class="spec"><dt>Frame</dt><dd>Engineered hardwood (LVL + plywood), corner-blocked</dd></div><div class="spec"><dt>Joinery</dt><dd>Staple-and-glue with corner blocks</dd></div><div class="spec"><dt>Legs</dt><dd>Tapered wood leg, natural oak</dd></div><div class="spec"><dt>Cover</dt><dd>4 covers &mdash; 2 neutral, 1 charcoal, 1 blue &mdash; all one price grade</dd></div><div class="spec"><dt>Fabric</dt><dd>Poly-blend performance flat weave (18,000 double rubs)</dd></div></div>
+  <div class="tablewrap">
+    <table class="pieces">
+      <thead><tr><th>SKU</th><th>Piece</th><th class="num">Retail</th>
+      <th class="num">COGS</th><th class="num">GM</th></tr></thead>
+      <tbody><tr><td class="mono">DEN-SC2-G</td><td>2-Pc Chaise Sectional</td><td class="num">$1,099</td><td class="num dim">$560</td><td class="num">49.0%</td></tr><tr><td class="mono">DEN-SC3-G</td><td>3-Pc Sectional</td><td class="num">$1,399</td><td class="num dim">$713</td><td class="num">49.0%</td></tr></tbody>
+    </table>
+  </div>
+  <blockquote class="rsa">
+    <span class="rsa-label">Floor story</span>
+    The chaise moves to either end &mdash; so it fits your room no matter which way the TV faces. One box, no wrong choice.
+  </blockquote>
+</article>
+<article class="family t-good">
+  <header class="fam-head">
+    <div class="fam-id">
+      <span class="code mono">EAS</span>
+      <h3>Easton</h3>
+      <span class="terr">Casual Transitional</span>
+    </div>
+    <div class="fam-meta">
+      <span class="chip">Motion</span>
+      <span class="range mono">$499&ndash;$999</span>
+      <span class="count">3 SKUs</span>
+    </div>
+  </header>
+  <p class="note">Motion entry. Push-back on the chair means no handle and no recliner silhouette &mdash; it captures the customer who wants the function but refuses to own something that looks like a recliner.</p>
+  <div class="specs"><div class="spec"><dt>Mechanism</dt><dd>Two-position push-back (chair); 3-position manual (sofa/loveseat)</dd></div><div class="spec"><dt>Arm</dt><dd>Pillow-top rolled arm</dd></div><div class="spec"><dt>Back</dt><dd>Attached channel back</dd></div><div class="spec"><dt>Seat</dt><dd>4.5&quot; 1.8 lb HD poly foam</dd></div><div class="spec"><dt>Suspension</dt><dd>Sinuous spring over steel seat box</dd></div><div class="spec"><dt>Frame</dt><dd>Engineered hardwood + steel mechanism reinforcement plates</dd></div><div class="spec"><dt>Joinery</dt><dd>Staple-and-glue, bolted at mechanism points</dd></div><div class="spec"><dt>Legs</dt><dd>Concealed base</dd></div><div class="spec"><dt>Cover</dt><dd>4 covers &mdash; 2 performance fabric, 1 PU leather-look, 1 chocolate</dd></div><div class="spec"><dt>Fabric</dt><dd>Poly-blend performance / PU leather-look (20,000 double rubs)</dd></div></div>
+  <div class="tablewrap">
+    <table class="pieces">
+      <thead><tr><th>SKU</th><th>Piece</th><th class="num">Retail</th>
+      <th class="num">COGS</th><th class="num">GM</th></tr></thead>
+      <tbody><tr><td class="mono">EAS-REC-G</td><td>Manual Recliner</td><td class="num">$499</td><td class="num dim">$257</td><td class="num">48.5%</td></tr><tr><td class="mono">EAS-RSF-G</td><td>Reclining Sofa</td><td class="num">$999</td><td class="num dim">$514</td><td class="num">48.5%</td></tr><tr><td class="mono">EAS-RLS-G</td><td>Reclining Loveseat</td><td class="num">$949</td><td class="num dim">$489</td><td class="num">48.5%</td></tr></tbody>
+    </table>
+  </div>
+  <blockquote class="rsa">
+    <span class="rsa-label">Floor story</span>
+    No handle, no lever &mdash; you just lean back. Sitting up it looks like a regular chair, which is the whole point.
+  </blockquote>
+</article></div>
+</section>
+
+<section class="tier t-better" id="tier-better">
+  <header class="tier-head">
+    <h2>Better</h2>
+    <dl class="tier-stats">
+      <div><dt>Families</dt><dd>8</dd></div>
+      <div><dt>SKUs</dt><dd>29</dd></div>
+      <div><dt>Retail range</dt><dd>$429&ndash;$2,199</dd></div>
+      <div><dt>Blended GM</dt><dd>52.3%</dd></div>
+    </dl>
+  </header>
+  <div class="families">
+<article class="family t-better">
+  <header class="fam-head">
+    <div class="fam-id">
+      <span class="code mono">GLN</span>
+      <h3>Glenwood</h3>
+      <span class="terr">Classic Transitional</span>
+    </div>
+    <div class="fam-meta">
+      <span class="chip">Stationary</span>
+      <span class="range mono">$429&ndash;$1,299</span>
+      <span class="count">4 SKUs</span>
+    </div>
+  </header>
+  <p class="note">The Classic lane&#x27;s Better rung. English arm is the visible step-up from Ashcroft&#x27;s roll &mdash; set back, so the seat is wider without the sofa being wider. That is a real functional gain the RSA can demonstrate with their own body.</p>
+  <div class="specs"><div class="spec"><dt>Arm</dt><dd>English (Charles of London) arm</dd></div><div class="spec"><dt>Back</dt><dd>Loose pillow back, channeled poly fill</dd></div><div class="spec"><dt>Seat</dt><dd>2.0 lb HR foam core, dacron wrap</dd></div><div class="spec"><dt>Suspension</dt><dd>Sinuous spring, 9 ga, 3&quot; spacing</dd></div><div class="spec"><dt>Frame</dt><dd>Kiln-dried hardwood, corner-blocked</dd></div><div class="spec"><dt>Joinery</dt><dd>Dowelled with corner blocks</dd></div><div class="spec"><dt>Legs</dt><dd>Turned wood leg, pecan finish</dd></div><div class="spec"><dt>Cover</dt><dd>10 covers &mdash; 5 standard grade, 5 premium grade (+$100)</dd></div><div class="spec"><dt>Fabric</dt><dd>Performance chenille / textured weave (35,000 double rubs)</dd></div></div>
+  <div class="tablewrap">
+    <table class="pieces">
+      <thead><tr><th>SKU</th><th>Piece</th><th class="num">Retail</th>
+      <th class="num">COGS</th><th class="num">GM</th></tr></thead>
+      <tbody><tr><td class="mono">GLN-SOF-B</td><td>Sofa</td><td class="num">$1,299</td><td class="num dim">$611</td><td class="num">53.0%</td></tr><tr><td class="mono">GLN-LVS-B</td><td>Loveseat</td><td class="num">$1,199</td><td class="num dim">$564</td><td class="num">53.0%</td></tr><tr><td class="mono">GLN-CHR-B</td><td>Chair</td><td class="num">$799</td><td class="num dim">$376</td><td class="num">52.9%</td></tr><tr><td class="mono">GLN-OTT-B</td><td>Ottoman</td><td class="num">$429</td><td class="num dim">$202</td><td class="num">52.9%</td></tr></tbody>
+    </table>
+  </div>
+  <blockquote class="rsa">
+    <span class="rsa-label">Floor story</span>
+    Watch &mdash; the arm sets back, so you get almost four more inches of actual sitting room than the sofa next to it, same wall space.
+  </blockquote>
+</article>
+<article class="family t-better">
+  <header class="fam-head">
+    <div class="fam-id">
+      <span class="code mono">HAR</span>
+      <h3>Harlow</h3>
+      <span class="terr">Modern Transitional</span>
+    </div>
+    <div class="fam-meta">
+      <span class="chip">Stationary</span>
+      <span class="range mono">$579&ndash;$1,199</span>
+      <span class="count">4 SKUs</span>
+    </div>
+  </header>
+  <p class="note">Lowest back in the line at 33&quot;. The channeled tight back does the differentiation work that a loose cushion would do elsewhere &mdash; it holds a crisp line, which is the whole promise of the silhouette.</p>
+  <div class="specs"><div class="spec"><dt>Arm</dt><dd>Track arm, contrast welt, rounded front edge</dd></div><div class="spec"><dt>Back</dt><dd>Tight back, vertical channeling</dd></div><div class="spec"><dt>Seat</dt><dd>2.0 lb HR foam core, dacron wrap</dd></div><div class="spec"><dt>Suspension</dt><dd>Sinuous spring, 9 ga, 3&quot; spacing</dd></div><div class="spec"><dt>Frame</dt><dd>Kiln-dried hardwood, corner-blocked</dd></div><div class="spec"><dt>Joinery</dt><dd>Dowelled with corner blocks</dd></div><div class="spec"><dt>Legs</dt><dd>Brushed metal leg, matte black</dd></div><div class="spec"><dt>Cover</dt><dd>8 covers &mdash; 5 standard grade, 3 premium grade (+$100)</dd></div><div class="spec"><dt>Fabric</dt><dd>Performance textured weave / linen-look poly (35,000 double rubs)</dd></div></div>
+  <div class="tablewrap">
+    <table class="pieces">
+      <thead><tr><th>SKU</th><th>Piece</th><th class="num">Retail</th>
+      <th class="num">COGS</th><th class="num">GM</th></tr></thead>
+      <tbody><tr><td class="mono">HAR-SOF-B</td><td>Sofa</td><td class="num">$1,199</td><td class="num dim">$576</td><td class="num">52.0%</td></tr><tr><td class="mono">HAR-LVS-B</td><td>Loveseat</td><td class="num">$1,099</td><td class="num dim">$528</td><td class="num">52.0%</td></tr><tr><td class="mono">HAR-CHR-B</td><td>Chair</td><td class="num">$749</td><td class="num dim">$360</td><td class="num">51.9%</td></tr><tr><td class="mono">HAR-ACH-B</td><td>Accent Chair</td><td class="num">$579</td><td class="num dim">$278</td><td class="num">52.0%</td></tr></tbody>
+    </table>
+  </div>
+  <blockquote class="rsa">
+    <span class="rsa-label">Floor story</span>
+    Run your hand down that back &mdash; that channeling is sewn, not stuffed. It&#x27;ll look exactly like this in five years.
+  </blockquote>
+</article>
+<article class="family t-better">
+  <header class="fam-head">
+    <div class="fam-id">
+      <span class="code mono">IVY</span>
+      <h3>Ivywood</h3>
+      <span class="terr">Casual Transitional</span>
+    </div>
+    <div class="fam-meta">
+      <span class="chip">Stationary</span>
+      <span class="range mono">$449&ndash;$1,349</span>
+      <span class="count">4 SKUs</span>
+    </div>
+  </header>
+  <p class="note">The deepest seat in the line at 24&quot; and the only Better stationary family on pocketed coil suspension. This is the comfort-first customer&#x27;s destination &mdash; and the demo that makes the Casual lane&#x27;s step-up self-evident.</p>
+  <div class="specs"><div class="spec"><dt>Arm</dt><dd>Pillow-top track arm</dd></div><div class="spec"><dt>Back</dt><dd>Loose pillow back, channeled poly fill</dd></div><div class="spec"><dt>Seat</dt><dd>2.0 lb HR foam core, dacron wrap, 24&quot; seat depth</dd></div><div class="spec"><dt>Suspension</dt><dd>Pocketed coil drop-in unit</dd></div><div class="spec"><dt>Frame</dt><dd>Kiln-dried hardwood, corner-blocked</dd></div><div class="spec"><dt>Joinery</dt><dd>Dowelled with corner blocks</dd></div><div class="spec"><dt>Legs</dt><dd>Tapered wood leg, walnut finish</dd></div><div class="spec"><dt>Cover</dt><dd>10 covers &mdash; 5 standard grade, 5 premium grade (+$100)</dd></div><div class="spec"><dt>Fabric</dt><dd>Performance chenille (40,000 double rubs)</dd></div></div>
+  <div class="tablewrap">
+    <table class="pieces">
+      <thead><tr><th>SKU</th><th>Piece</th><th class="num">Retail</th>
+      <th class="num">COGS</th><th class="num">GM</th></tr></thead>
+      <tbody><tr><td class="mono">IVY-SOF-B</td><td>Sofa</td><td class="num">$1,349</td><td class="num dim">$634</td><td class="num">53.0%</td></tr><tr><td class="mono">IVY-LVS-B</td><td>Loveseat</td><td class="num">$1,249</td><td class="num dim">$587</td><td class="num">53.0%</td></tr><tr><td class="mono">IVY-CHR-B</td><td>Chair</td><td class="num">$849</td><td class="num dim">$399</td><td class="num">53.0%</td></tr><tr><td class="mono">IVY-OTT-B</td><td>Ottoman</td><td class="num">$449</td><td class="num dim">$211</td><td class="num">53.0%</td></tr></tbody>
+    </table>
+  </div>
+  <blockquote class="rsa">
+    <span class="rsa-label">Floor story</span>
+    Push down on the seat &mdash; feel it push back? That&#x27;s individual coils under there, same as a good mattress. Foam alone can&#x27;t do that.
+  </blockquote>
+</article>
+<article class="family t-better">
+  <header class="fam-head">
+    <div class="fam-id">
+      <span class="code mono">OAK</span>
+      <h3>Oakhurst</h3>
+      <span class="terr">Modern Transitional</span>
+    </div>
+    <div class="fam-meta">
+      <span class="chip">Stationary</span>
+      <span class="range mono">$439&ndash;$1,499</span>
+      <span class="count">5 SKUs</span>
+    </div>
+  </header>
+  <p class="note">The family-proof family. Every cover is performance and every cover is one price &mdash; the customer with kids and a dog never has to weigh fabric choice against budget. Carries the line&#x27;s only sleeper.</p>
+  <div class="specs"><div class="spec"><dt>Arm</dt><dd>Square track arm, contrast welt</dd></div><div class="spec"><dt>Back</dt><dd>Attached pillow back</dd></div><div class="spec"><dt>Seat</dt><dd>2.0 lb HR foam core, dacron wrap</dd></div><div class="spec"><dt>Suspension</dt><dd>Sinuous spring, 9 ga, 3&quot; spacing</dd></div><div class="spec"><dt>Frame</dt><dd>Kiln-dried hardwood, corner-blocked</dd></div><div class="spec"><dt>Joinery</dt><dd>Dowelled with corner blocks</dd></div><div class="spec"><dt>Legs</dt><dd>Tapered wood leg, natural oak</dd></div><div class="spec"><dt>Cover</dt><dd>12 covers &mdash; 12 performance covers, single price grade</dd></div><div class="spec"><dt>Fabric</dt><dd>Full performance program &mdash; stain + moisture barrier (50,000 double rubs)</dd></div></div>
+  <div class="tablewrap">
+    <table class="pieces">
+      <thead><tr><th>SKU</th><th>Piece</th><th class="num">Retail</th>
+      <th class="num">COGS</th><th class="num">GM</th></tr></thead>
+      <tbody><tr><td class="mono">OAK-SOF-B</td><td>Sofa</td><td class="num">$1,249</td><td class="num dim">$593</td><td class="num">52.5%</td></tr><tr><td class="mono">OAK-LVS-B</td><td>Loveseat</td><td class="num">$1,149</td><td class="num dim">$546</td><td class="num">52.5%</td></tr><tr><td class="mono">OAK-CHR-B</td><td>Chair</td><td class="num">$779</td><td class="num dim">$370</td><td class="num">52.5%</td></tr><tr><td class="mono">OAK-OTT-B</td><td>Ottoman</td><td class="num">$439</td><td class="num dim">$209</td><td class="num">52.4%</td></tr><tr><td class="mono">OAK-SLP-B</td><td>Queen Sleeper Sofa</td><td class="num">$1,499</td><td class="num dim">$735</td><td class="num">51.0%</td></tr></tbody>
+    </table>
+  </div>
+  <blockquote class="rsa">
+    <span class="rsa-label">Floor story</span>
+    Every single cover on this one is performance fabric, and they&#x27;re all the same price. Pick the color you love, not the one you can afford to ruin.
+  </blockquote>
+</article>
+<article class="family t-better">
+  <header class="fam-head">
+    <div class="fam-id">
+      <span class="code mono">LAN</span>
+      <h3>Lanmore</h3>
+      <span class="terr">Modern Transitional</span>
+    </div>
+    <div class="fam-meta">
+      <span class="chip">Sectional</span>
+      <span class="range mono">$1,599&ndash;$1,899</span>
+      <span class="count">2 SKUs</span>
+    </div>
+  </header>
+  <p class="note">Harlow&#x27;s silhouette in sectional form &mdash; deliberately shares the arm, leg and cover program so the two can merchandise as one modern vignette and amortize the same tooling and cover buy.</p>
+  <div class="specs"><div class="spec"><dt>Arm</dt><dd>Track arm, contrast welt</dd></div><div class="spec"><dt>Back</dt><dd>Tight back, vertical channeling</dd></div><div class="spec"><dt>Seat</dt><dd>2.0 lb HR foam core, dacron wrap</dd></div><div class="spec"><dt>Suspension</dt><dd>Sinuous spring, 9 ga, 3&quot; spacing</dd></div><div class="spec"><dt>Frame</dt><dd>Kiln-dried hardwood, corner-blocked</dd></div><div class="spec"><dt>Joinery</dt><dd>Dowelled with corner blocks</dd></div><div class="spec"><dt>Legs</dt><dd>Brushed metal leg, matte black</dd></div><div class="spec"><dt>Cover</dt><dd>8 covers &mdash; 5 standard grade, 3 premium grade (+$100)</dd></div><div class="spec"><dt>Fabric</dt><dd>Performance textured weave / linen-look poly (35,000 double rubs)</dd></div></div>
+  <div class="tablewrap">
+    <table class="pieces">
+      <thead><tr><th>SKU</th><th>Piece</th><th class="num">Retail</th>
+      <th class="num">COGS</th><th class="num">GM</th></tr></thead>
+      <tbody><tr><td class="mono">LAN-SC2-B</td><td>2-Pc Chaise Sectional</td><td class="num">$1,599</td><td class="num dim">$760</td><td class="num">52.5%</td></tr><tr><td class="mono">LAN-SC3-B</td><td>3-Pc Sectional</td><td class="num">$1,899</td><td class="num dim">$902</td><td class="num">52.5%</td></tr></tbody>
+    </table>
+  </div>
+  <blockquote class="rsa">
+    <span class="rsa-label">Floor story</span>
+    Same clean arm and metal leg as the Harlow sofa behind you &mdash; so if you want the sectional in the family room and the sofa in the front room, they read as a set.
+  </blockquote>
+</article>
+<article class="family t-better">
+  <header class="fam-head">
+    <div class="fam-id">
+      <span class="code mono">KNG</span>
+      <h3>Kingsley</h3>
+      <span class="terr">Casual Transitional</span>
+    </div>
+    <div class="fam-meta">
+      <span class="chip">Sectional</span>
+      <span class="range mono">$1,699&ndash;$2,199</span>
+      <span class="count">3 SKUs</span>
+    </div>
+  </header>
+  <p class="note">Ivywood&#x27;s construction in modular form. The 5-Pc introduces the modular concept at Better so the customer meets reconfigurability before they are asked to pay Best-tier money for it.</p>
+  <div class="specs"><div class="spec"><dt>Arm</dt><dd>Pillow-top track arm</dd></div><div class="spec"><dt>Back</dt><dd>Loose pillow back, channeled poly fill</dd></div><div class="spec"><dt>Seat</dt><dd>2.0 lb HR foam core, dacron wrap, 24&quot; seat depth</dd></div><div class="spec"><dt>Suspension</dt><dd>Pocketed coil drop-in unit</dd></div><div class="spec"><dt>Frame</dt><dd>Kiln-dried hardwood, corner-blocked</dd></div><div class="spec"><dt>Joinery</dt><dd>Dowelled with corner blocks</dd></div><div class="spec"><dt>Legs</dt><dd>Tapered wood leg, walnut finish</dd></div><div class="spec"><dt>Cover</dt><dd>10 covers &mdash; 5 standard grade, 5 premium grade (+$100)</dd></div><div class="spec"><dt>Fabric</dt><dd>Performance chenille (40,000 double rubs)</dd></div></div>
+  <div class="tablewrap">
+    <table class="pieces">
+      <thead><tr><th>SKU</th><th>Piece</th><th class="num">Retail</th>
+      <th class="num">COGS</th><th class="num">GM</th></tr></thead>
+      <tbody><tr><td class="mono">KNG-SC2-B</td><td>2-Pc Chaise Sectional</td><td class="num">$1,699</td><td class="num dim">$807</td><td class="num">52.5%</td></tr><tr><td class="mono">KNG-SC3-B</td><td>3-Pc Sectional</td><td class="num">$1,999</td><td class="num dim">$950</td><td class="num">52.5%</td></tr><tr><td class="mono">KNG-SC5-B</td><td>5-Pc Modular Sectional</td><td class="num">$2,199</td><td class="num dim">$1,045</td><td class="num">52.5%</td></tr></tbody>
+    </table>
+  </div>
+  <blockquote class="rsa">
+    <span class="rsa-label">Floor story</span>
+    These pieces come apart and go back together however your room needs &mdash; and if you move, it moves with you.
+  </blockquote>
+</article>
+<article class="family t-better">
+  <header class="fam-head">
+    <div class="fam-id">
+      <span class="code mono">MAR</span>
+      <h3>Marchetti</h3>
+      <span class="terr">Classic Transitional</span>
+    </div>
+    <div class="fam-meta">
+      <span class="chip">Motion</span>
+      <span class="range mono">$699&ndash;$1,449</span>
+      <span class="count">4 SKUs</span>
+    </div>
+  </header>
+  <p class="note">Manual motion done properly. Wall-saver is the headline &mdash; it solves an actual room-layout problem, which is a far stronger step-up argument than a smoother handle. Genuine leather enters the line here, at Better, because motion customers expect it.</p>
+  <div class="specs"><div class="spec"><dt>Mechanism</dt><dd>Wall-saver 3-position manual; rocker chassis on RRC</dd></div><div class="spec"><dt>Arm</dt><dd>Rolled arm, contrast welt</dd></div><div class="spec"><dt>Back</dt><dd>Attached channel back, layered fiber</dd></div><div class="spec"><dt>Seat</dt><dd>5&quot; 2.0 lb HR foam</dd></div><div class="spec"><dt>Suspension</dt><dd>Sinuous spring over steel seat box</dd></div><div class="spec"><dt>Frame</dt><dd>Kiln-dried hardwood + steel bolt-through at stress points</dd></div><div class="spec"><dt>Joinery</dt><dd>Dowelled, steel bolt-through at mechanism points</dd></div><div class="spec"><dt>Legs</dt><dd>Concealed base</dd></div><div class="spec"><dt>Cover</dt><dd>8 covers &mdash; 5 performance fabric, 3 genuine split-grain leather (+$200)</dd></div><div class="spec"><dt>Fabric</dt><dd>Performance fabric / split-grain leather (40,000 double rubs)</dd></div></div>
+  <div class="tablewrap">
+    <table class="pieces">
+      <thead><tr><th>SKU</th><th>Piece</th><th class="num">Retail</th>
+      <th class="num">COGS</th><th class="num">GM</th></tr></thead>
+      <tbody><tr><td class="mono">MAR-RRC-B</td><td>Rocker Recliner</td><td class="num">$699</td><td class="num dim">$336</td><td class="num">51.9%</td></tr><tr><td class="mono">MAR-WRC-B</td><td>Wall-Saver Recliner</td><td class="num">$799</td><td class="num dim">$384</td><td class="num">51.9%</td></tr><tr><td class="mono">MAR-RSF-B</td><td>Reclining Sofa</td><td class="num">$1,449</td><td class="num dim">$696</td><td class="num">52.0%</td></tr><tr><td class="mono">MAR-RLC-B</td><td>Reclining Loveseat w/ Console</td><td class="num">$1,399</td><td class="num dim">$672</td><td class="num">52.0%</td></tr></tbody>
+    </table>
+  </div>
+  <blockquote class="rsa">
+    <span class="rsa-label">Floor story</span>
+    Push it right up against the wall &mdash; go ahead. Now recline it. It comes forward instead of back. You get the recliner without giving up a foot of your room.
+  </blockquote>
+</article>
+<article class="family t-better">
+  <header class="fam-head">
+    <div class="fam-id">
+      <span class="code mono">NOR</span>
+      <h3>Northfield</h3>
+      <span class="terr">Casual Transitional</span>
+    </div>
+    <div class="fam-meta">
+      <span class="chip">Motion</span>
+      <span class="range mono">$899&ndash;$1,899</span>
+      <span class="count">3 SKUs</span>
+    </div>
+  </header>
+  <p class="note">Power at Better. This is the single most important step-up in the whole line &mdash; the manual-to-power jump changes the showroom demo completely and it is the reason the motion ladder can support four rungs instead of two.</p>
+  <div class="specs"><div class="spec"><dt>Mechanism</dt><dd>Single-motor power recline, infinite position, USB-A port</dd></div><div class="spec"><dt>Arm</dt><dd>Pillow-top track arm</dd></div><div class="spec"><dt>Back</dt><dd>Attached pillow back, layered fiber</dd></div><div class="spec"><dt>Seat</dt><dd>5&quot; 2.0 lb HR foam</dd></div><div class="spec"><dt>Suspension</dt><dd>Sinuous spring over steel seat box</dd></div><div class="spec"><dt>Frame</dt><dd>Kiln-dried hardwood + steel bolt-through at stress points</dd></div><div class="spec"><dt>Joinery</dt><dd>Dowelled, steel bolt-through at mechanism points</dd></div><div class="spec"><dt>Legs</dt><dd>Concealed base</dd></div><div class="spec"><dt>Cover</dt><dd>8 covers &mdash; 5 performance fabric, 3 genuine split-grain leather (+$200)</dd></div><div class="spec"><dt>Fabric</dt><dd>Performance fabric / split-grain leather (40,000 double rubs)</dd></div></div>
+  <div class="tablewrap">
+    <table class="pieces">
+      <thead><tr><th>SKU</th><th>Piece</th><th class="num">Retail</th>
+      <th class="num">COGS</th><th class="num">GM</th></tr></thead>
+      <tbody><tr><td class="mono">NOR-PRC-B</td><td>Power Recliner</td><td class="num">$899</td><td class="num dim">$436</td><td class="num">51.5%</td></tr><tr><td class="mono">NOR-PSF-B</td><td>Power Reclining Sofa</td><td class="num">$1,899</td><td class="num dim">$921</td><td class="num">51.5%</td></tr><tr><td class="mono">NOR-PLC-B</td><td>Power Reclining Loveseat w/ Console</td><td class="num">$1,849</td><td class="num dim">$897</td><td class="num">51.5%</td></tr></tbody>
+    </table>
+  </div>
+  <blockquote class="rsa">
+    <span class="rsa-label">Floor story</span>
+    One button &mdash; and you can stop it anywhere you want, not just three preset spots. Charge your phone right there in the arm.
+  </blockquote>
+</article></div>
+</section>
+
+<section class="tier t-best" id="tier-best">
+  <header class="tier-head">
+    <h2>Best</h2>
+    <dl class="tier-stats">
+      <div><dt>Families</dt><dd>5</dd></div>
+      <div><dt>SKUs</dt><dd>17</dd></div>
+      <div><dt>Retail range</dt><dd>$579&ndash;$3,499</dd></div>
+      <div><dt>Blended GM</dt><dd>54.7%</dd></div>
+    </dl>
+  </header>
+  <div class="families">
+<article class="family t-best">
+  <header class="fam-head">
+    <div class="fam-id">
+      <span class="code mono">PEM</span>
+      <h3>Pemberton</h3>
+      <span class="terr">Classic Transitional</span>
+    </div>
+    <div class="fam-meta">
+      <span class="chip">Stationary</span>
+      <span class="range mono">$579&ndash;$1,799</span>
+      <span class="count">4 SKUs</span>
+    </div>
+  </header>
+  <p class="note">The line&#x27;s craftsmanship statement. Most of what the customer pays for here is invisible &mdash; mortise-and-tenon joinery, kiln-dried maple, pocketed coil suspension &mdash; which is the ethical obligation of a Best tier and why this SKU carries a 15-year frame warranty the rest of the line cannot. 8-way hand-tied was specced and then cut: at $195 of a $810 COGS budget it is the most expensive thing in furniture the customer cannot feel in a showroom. That money went into the down-blend back pillows and the maple frame instead.</p>
+  <div class="specs"><div class="spec"><dt>Arm</dt><dd>English arm, scroll detail, antique nailhead border</dd></div><div class="spec"><dt>Back</dt><dd>Loose pillow back, down-blend fill</dd></div><div class="spec"><dt>Seat</dt><dd>2.2 lb HR foam core, thick fiber wrap (down-blend seat envelope available custom-order)</dd></div><div class="spec"><dt>Suspension</dt><dd>Pocketed coil drop-in unit</dd></div><div class="spec"><dt>Frame</dt><dd>Kiln-dried maple, corner-blocked</dd></div><div class="spec"><dt>Joinery</dt><dd>Mortise-and-tenon at all stress points</dd></div><div class="spec"><dt>Legs</dt><dd>Turned wood leg, hand-finished pecan</dd></div><div class="spec"><dt>Cover</dt><dd>16 covers &mdash; 8 in-stock, 8 custom-order book (+$150-$400)</dd></div><div class="spec"><dt>Fabric</dt><dd>Premium woven / velvet / Crypton performance (60,000 double rubs)</dd></div></div>
+  <div class="tablewrap">
+    <table class="pieces">
+      <thead><tr><th>SKU</th><th>Piece</th><th class="num">Retail</th>
+      <th class="num">COGS</th><th class="num">GM</th></tr></thead>
+      <tbody><tr><td class="mono">PEM-SOF-X</td><td>Sofa</td><td class="num">$1,799</td><td class="num dim">$810</td><td class="num">55.0%</td></tr><tr><td class="mono">PEM-LVS-X</td><td>Loveseat</td><td class="num">$1,699</td><td class="num dim">$765</td><td class="num">55.0%</td></tr><tr><td class="mono">PEM-CHR-X</td><td>Chair</td><td class="num">$1,099</td><td class="num dim">$495</td><td class="num">55.0%</td></tr><tr><td class="mono">PEM-OTT-X</td><td>Ottoman</td><td class="num">$579</td><td class="num dim">$261</td><td class="num">54.9%</td></tr></tbody>
+    </table>
+  </div>
+  <blockquote class="rsa">
+    <span class="rsa-label">Floor story</span>
+    Individual pocketed coils under the seat, mortise-and-tenon maple frame, down in the back pillows. Fifteen years on the frame &mdash; it&#x27;ll sit the same the day your kids inherit it.
+  </blockquote>
+</article>
+<article class="family t-best">
+  <header class="fam-head">
+    <div class="fam-id">
+      <span class="code mono">QUI</span>
+      <h3>Quincy</h3>
+      <span class="terr">Modern Transitional</span>
+    </div>
+    <div class="fam-meta">
+      <span class="chip">Stationary</span>
+      <span class="range mono">$1,079&ndash;$1,749</span>
+      <span class="count">3 SKUs</span>
+    </div>
+  </header>
+  <p class="note">The design halo. The scoop arm and a 32&quot; back make this the most sculptural piece in the line, and the sculpting is where the money goes &mdash; hand-shaped foam and brass legs on a mortise-and-tenon frame. Coil-on-coil was specced and cut for the same reason 8-way hand-tied was: the arm is what sells this SKU, and the budget belongs where the customer looks.</p>
+  <div class="specs"><div class="spec"><dt>Arm</dt><dd>Scoop arm, sculpted</dd></div><div class="spec"><dt>Back</dt><dd>Tight back, sculpted foam</dd></div><div class="spec"><dt>Seat</dt><dd>2.2 lb HR foam core, thick fiber wrap</dd></div><div class="spec"><dt>Suspension</dt><dd>Pocketed coil drop-in unit</dd></div><div class="spec"><dt>Frame</dt><dd>Kiln-dried hardwood, corner-blocked</dd></div><div class="spec"><dt>Joinery</dt><dd>Mortise-and-tenon at all stress points</dd></div><div class="spec"><dt>Legs</dt><dd>Solid brass leg, brushed</dd></div><div class="spec"><dt>Cover</dt><dd>14 covers &mdash; 7 in-stock, 7 custom-order book (+$150-$400)</dd></div><div class="spec"><dt>Fabric</dt><dd>Premium woven / velvet / Crypton performance (60,000 double rubs)</dd></div></div>
+  <div class="tablewrap">
+    <table class="pieces">
+      <thead><tr><th>SKU</th><th>Piece</th><th class="num">Retail</th>
+      <th class="num">COGS</th><th class="num">GM</th></tr></thead>
+      <tbody><tr><td class="mono">QUI-SOF-X</td><td>Sofa</td><td class="num">$1,749</td><td class="num dim">$805</td><td class="num">54.0%</td></tr><tr><td class="mono">QUI-LVS-X</td><td>Loveseat</td><td class="num">$1,599</td><td class="num dim">$736</td><td class="num">54.0%</td></tr><tr><td class="mono">QUI-CHR-X</td><td>Chair</td><td class="num">$1,079</td><td class="num dim">$496</td><td class="num">54.0%</td></tr></tbody>
+    </table>
+  </div>
+  <blockquote class="rsa">
+    <span class="rsa-label">Floor story</span>
+    Look at the line of that arm &mdash; it&#x27;s carved, not stuffed. And there are individual coils underneath the seat, so it comes right back up every time you stand.
+  </blockquote>
+</article>
+<article class="family t-best">
+  <header class="fam-head">
+    <div class="fam-id">
+      <span class="code mono">THO</span>
+      <h3>Thorne</h3>
+      <span class="terr">Modern Transitional</span>
+    </div>
+    <div class="fam-meta">
+      <span class="chip">Stationary</span>
+      <span class="range mono">$1,349&ndash;$2,299</span>
+      <span class="count">3 SKUs</span>
+    </div>
+  </header>
+  <p class="note">The leather statement, and deliberately the narrowest cover program in the line &mdash; leather is the product here, so six well-chosen hides beat sixteen mediocre ones. Shelter arm is the only one in the assortment; it is a design-literate customer&#x27;s piece and it is not trying to be for everyone.</p>
+  <div class="specs"><div class="spec"><dt>Arm</dt><dd>Shelter (tuxedo) arm</dd></div><div class="spec"><dt>Back</dt><dd>Tight back, arm height matched</dd></div><div class="spec"><dt>Seat</dt><dd>2.2 lb HR foam core, dacron wrap</dd></div><div class="spec"><dt>Suspension</dt><dd>Pocketed coil drop-in unit</dd></div><div class="spec"><dt>Frame</dt><dd>Kiln-dried hardwood, corner-blocked</dd></div><div class="spec"><dt>Joinery</dt><dd>Mortise-and-tenon at all stress points</dd></div><div class="spec"><dt>Legs</dt><dd>Solid brass leg, brushed</dd></div><div class="spec"><dt>Cover</dt><dd>6 covers &mdash; 4 top-grain leather in-stock, 2 full-aniline special order</dd></div><div class="spec"><dt>Fabric</dt><dd>Top-grain leather, full aniline available (100,000 double rubs)</dd></div></div>
+  <div class="tablewrap">
+    <table class="pieces">
+      <thead><tr><th>SKU</th><th>Piece</th><th class="num">Retail</th>
+      <th class="num">COGS</th><th class="num">GM</th></tr></thead>
+      <tbody><tr><td class="mono">THO-SOF-X</td><td>Sofa</td><td class="num">$2,299</td><td class="num dim">$1,058</td><td class="num">54.0%</td></tr><tr><td class="mono">THO-LVS-X</td><td>Loveseat</td><td class="num">$2,099</td><td class="num dim">$966</td><td class="num">54.0%</td></tr><tr><td class="mono">THO-CHR-X</td><td>Chair</td><td class="num">$1,349</td><td class="num dim">$621</td><td class="num">54.0%</td></tr></tbody>
+    </table>
+  </div>
+  <blockquote class="rsa">
+    <span class="rsa-label">Floor story</span>
+    This is top-grain leather &mdash; not bonded, not split. Run your hand across it. In ten years it&#x27;ll look better than it does today, which is not true of anything else on this floor.
+  </blockquote>
+</article>
+<article class="family t-best">
+  <header class="fam-head">
+    <div class="fam-id">
+      <span class="code mono">RAV</span>
+      <h3>Ravenswood</h3>
+      <span class="terr">Casual Transitional</span>
+    </div>
+    <div class="fam-meta">
+      <span class="chip">Sectional</span>
+      <span class="range mono">$1,899&ndash;$3,499</span>
+      <span class="count">4 SKUs</span>
+    </div>
+  </header>
+  <p class="note">Fully modular &mdash; every seat is an independent unit, so the customer buys a configuration rather than a shape. This is the line&#x27;s highest ticket and its widest cover program; the custom-order book shifts inventory risk to the customer and lets the assortment carry 18 covers without carrying 18 SKUs.</p>
+  <div class="specs"><div class="spec"><dt>Arm</dt><dd>Pillow-top track arm, loose down-blend pillow</dd></div><div class="spec"><dt>Back</dt><dd>Loose pillow back, down-blend fill</dd></div><div class="spec"><dt>Seat</dt><dd>2.2 lb HR foam core, thick fiber wrap</dd></div><div class="spec"><dt>Suspension</dt><dd>Pocketed coil drop-in unit</dd></div><div class="spec"><dt>Frame</dt><dd>Kiln-dried hardwood, corner-blocked</dd></div><div class="spec"><dt>Joinery</dt><dd>Mortise-and-tenon at all stress points</dd></div><div class="spec"><dt>Legs</dt><dd>Tapered wood leg, hand-finished walnut</dd></div><div class="spec"><dt>Cover</dt><dd>18 covers &mdash; 8 in-stock, 10 custom-order book (+$150-$400)</dd></div><div class="spec"><dt>Fabric</dt><dd>Premium woven / performance velvet / Crypton (60,000 double rubs)</dd></div></div>
+  <div class="tablewrap">
+    <table class="pieces">
+      <thead><tr><th>SKU</th><th>Piece</th><th class="num">Retail</th>
+      <th class="num">COGS</th><th class="num">GM</th></tr></thead>
+      <tbody><tr><td class="mono">RAV-SOF-X</td><td>Sofa</td><td class="num">$1,899</td><td class="num dim">$855</td><td class="num">55.0%</td></tr><tr><td class="mono">RAV-SC3-X</td><td>3-Pc Modular Sectional</td><td class="num">$2,699</td><td class="num dim">$1,215</td><td class="num">55.0%</td></tr><tr><td class="mono">RAV-SC5-X</td><td>5-Pc Modular Sectional</td><td class="num">$3,199</td><td class="num dim">$1,440</td><td class="num">55.0%</td></tr><tr><td class="mono">RAV-SC6-X</td><td>6-Pc Modular Sectional</td><td class="num">$3,499</td><td class="num dim">$1,575</td><td class="num">55.0%</td></tr></tbody>
+    </table>
+  </div>
+  <blockquote class="rsa">
+    <span class="rsa-label">Floor story</span>
+    Every piece here is its own unit &mdash; build it around your room today, rebuild it in the next house. And the seat cushions have a down wrap over the foam, so you sink in and it still holds you up.
+  </blockquote>
+</article>
+<article class="family t-best">
+  <header class="fam-head">
+    <div class="fam-id">
+      <span class="code mono">STR</span>
+      <h3>Stratton</h3>
+      <span class="terr">Classic Transitional</span>
+    </div>
+    <div class="fam-meta">
+      <span class="chip">Motion</span>
+      <span class="range mono">$1,299&ndash;$2,799</span>
+      <span class="count">3 SKUs</span>
+    </div>
+  </header>
+  <p class="note">Three motors: recline, headrest, lumbar. The independent headrest is the demo &mdash; body reclined, head forward for the TV &mdash; and it is something no Better-tier power unit can do. Battery backup removes the last objection, which is the cord.</p>
+  <div class="specs"><div class="spec"><dt>Mechanism</dt><dd>Dual-motor power recline with independent power headrest, power lumbar, USB-A + USB-C, battery backup</dd></div><div class="spec"><dt>Arm</dt><dd>Rolled arm, contrast welt, nailhead border</dd></div><div class="spec"><dt>Back</dt><dd>Attached channel back, layered fiber</dd></div><div class="spec"><dt>Seat</dt><dd>5&quot; 2.2 lb HR foam over encased spring unit</dd></div><div class="spec"><dt>Suspension</dt><dd>Encased spring unit over steel seat box</dd></div><div class="spec"><dt>Frame</dt><dd>Kiln-dried hardwood + full steel bolt-through construction</dd></div><div class="spec"><dt>Joinery</dt><dd>Steel bolt-through at all mechanism and stress points</dd></div><div class="spec"><dt>Legs</dt><dd>Concealed base</dd></div><div class="spec"><dt>Cover</dt><dd>16 covers &mdash; 8 premium performance fabric, 8 top-grain leather (+$300)</dd></div><div class="spec"><dt>Fabric</dt><dd>Top-grain leather / premium performance fabric (100,000 double rubs)</dd></div></div>
+  <div class="tablewrap">
+    <table class="pieces">
+      <thead><tr><th>SKU</th><th>Piece</th><th class="num">Retail</th>
+      <th class="num">COGS</th><th class="num">GM</th></tr></thead>
+      <tbody><tr><td class="mono">STR-PRC-X</td><td>Power Recliner</td><td class="num">$1,299</td><td class="num dim">$585</td><td class="num">55.0%</td></tr><tr><td class="mono">STR-PSF-X</td><td>Power Reclining Sofa</td><td class="num">$2,799</td><td class="num dim">$1,260</td><td class="num">55.0%</td></tr><tr><td class="mono">STR-PLC-X</td><td>Power Reclining Loveseat w/ Console</td><td class="num">$2,699</td><td class="num dim">$1,215</td><td class="num">55.0%</td></tr></tbody>
+    </table>
+  </div>
+  <blockquote class="rsa">
+    <span class="rsa-label">Floor story</span>
+    Lean all the way back &mdash; now bring just your head forward to watch the game. Separate motor. And there&#x27;s a battery in it, so it doesn&#x27;t have to live next to an outlet.
+  </blockquote>
+</article></div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <h2>Open items</h2>
+    <p>Stated rather than buried. Each carries a recommended fill.</p>
+  </div>
+  <ul class="openlist">
+    <li>
+      <h4>No motion sectional<span class="tag">largest gap</span></h4>
+      <p>Nine sectional SKUs, thirteen motion SKUs, zero overlap. Reclining
+      sectionals are real mid-market volume. Filling it properly needs 3&ndash;4
+      SKUs at Better and Best &mdash; which means expanding past 65 or cutting
+      elsewhere. A scope decision, not an oversight.</p>
+    </li>
+    <li>
+      <h4>No $599 opening sofa<span class="tag">price point</span></h4>
+      <p>The line opens at $699. A $599 three-seat sofa at entry spec models at
+      ~$357 landed against a ~$305 allowance &mdash; unreachable at an in-band
+      margin. Recommended fill: an apartment-scale two-seat sofa at
+      $549&ndash;$599 that carries its margin honestly, rather than discounting
+      a three-seat build.</p>
+    </li>
+    <li>
+      <h4>Six families run with thin cost headroom<span class="tag">watch list</span></h4>
+      <p>Fairhaven, Brantley, Easton, Harlow, Ivywood and Kingsley build inside
+      their allowed COGS with little room to absorb input movement. They are the
+      first SKUs to re-cost when foam, freight or currency shifts.</p>
+    </li>
+    <li>
+      <h4>Costs are modeled, not quoted<span class="tag">before RFQ</span></h4>
+      <p>Every landed cost here is derived from target margin &mdash; planning
+      numbers that prove the architecture holds before vendor RFQs go out. The
+      checks are built to be rerun as real costing returns.</p>
+    </li>
+  </ul>
+</section>
+
+<footer>
+  <p>Generated from <code>scripts/assortment_data.py</code>, the canonical
+  source of truth for all 65 SKUs. Rerun <code>build_page.py</code>,
+  <code>ladder_health.py</code> and <code>spec_checker.py</code> after any
+  change to the line.</p>
+</footer>
+
+</div>

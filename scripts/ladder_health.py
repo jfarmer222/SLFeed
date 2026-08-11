@@ -231,6 +231,29 @@ def check_vendor_architecture(rows):
         else:
             record("FAIL", "Tier anchor", f"{tier} has no national anchor")
 
+    # Is our planned retail credible for the brand on the ticket? A national
+    # brand carries a price the customer has already seen elsewhere.
+    for r in nat:
+        key = (A.FAMILY_VENDOR[r["family_code"]], r["piece_type"])
+        rng = A.VENDOR_OBSERVED_RANGES.get(key)
+        if not rng:
+            continue
+        lo, hi = rng
+        if lo <= r["retail"] <= hi:
+            continue
+        reason = A.RANGE_EXCEPTIONS.get(r["sku_id"])
+        if reason:
+            record("INFO", "Street price",
+                   f"{r['sku_id']} {r['vendor']} {r['piece_type']} "
+                   f"${r['retail']:,} outside observed ${lo:,}-${hi:,} "
+                   f"-- {reason}")
+        else:
+            record("FLAG", "Street price",
+                   f"{r['sku_id']} {r['vendor']} {r['piece_type']} "
+                   f"${r['retail']:,} outside observed dealer range "
+                   f"${lo:,}-${hi:,} -- customer may have seen this brand "
+                   f"cheaper elsewhere")
+
     unsourced = [r for r in rows if r["vendor"] == "TBD"]
     if unsourced:
         fams = sorted({r["family"] for r in unsourced})

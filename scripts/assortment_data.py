@@ -124,6 +124,56 @@ VENDORS = {
     },
 }
 
+# Observed street-price ranges by brand and piece type, from public dealer
+# catalogs (see research/national-brands.md). Treat as directional: these are
+# promo/street prices, not MSRP, and the Flexsteel sample skews to leather and
+# triple-power units so its true low end is likely below what is shown.
+VENDOR_OBSERVED_RANGES = {
+    ("ashley", "Sofa"): (450, 516),
+    ("ashley", "Reclining Sofa"): (590, 920),
+    ("ashley", "Manual Recliner"): (400, 982),
+    ("lazboy", "Rocker Recliner"): (559, 2599),
+    ("lazboy", "Wall-Saver Recliner"): (559, 2599),
+    ("lazboy", "Power Recliner"): (559, 2599),
+    ("lazboy", "Reclining Sofa"): (978, 1769),
+    ("lazboy", "Power Reclining Sofa"): (1679, 2590),
+    ("lazboy", "Power Reclining Loveseat w/ Console"): (1709, 2510),
+    ("flexsteel", "Power Recliner"): (1898, 3997),
+    ("flexsteel", "Power Reclining Sofa"): (2998, 4997),
+    ("flexsteel", "Power Reclining Loveseat w/ Console"): (2998, 4997),
+}
+
+# Where we knowingly price outside a brand's observed range, and why.
+RANGE_EXCEPTIONS = {
+    "FAI-SOF-G": (
+        "Above Ashley's observed $450-$516 stationary sofa band, and "
+        "deliberately so. Ashley's opening stationary rides a platform deck "
+        "with no springs -- marketed as '3x better than a spring system' "
+        "with no test standard cited. This line holds a sinuous-spring "
+        "minimum at Good, so we buy up within Ashley rather than down to the "
+        "opener. The extra ~$180 of retail is what the spring costs."
+    ),
+    "EAS-RSF-G": (
+        "Above Ashley's observed $590-$920 manual reclining sofa band. "
+        "Deliberate: we buy Ashley's better manual, not its opener. The "
+        "opener is built to a spec this line will not carry."
+    ),
+    "STR-PRC-X": (
+        "Below Flexsteel's observed $1,898 low. The dealer sample was "
+        "weighted to leather and triple-power units; entry fabric power is "
+        "not represented and almost certainly sits lower. Confirm against a "
+        "Flexsteel line sheet before committing."
+    ),
+    "STR-PSF-X": (
+        "Below Flexsteel's observed $2,998 low, same sampling caveat. This "
+        "SKU must be an entry fabric configuration, not the leather "
+        "triple-power units the dealer sample captured."
+    ),
+    "STR-PLC-X": (
+        "Below Flexsteel's observed low, same sampling caveat as STR-PSF-X."
+    ),
+}
+
 # Which vendor supplies each frame family. Non-national assignments are filled
 # from the High Point research in research/ -- None means not yet sourced.
 FAMILY_VENDOR = {
@@ -136,6 +186,36 @@ FAMILY_VENDOR = {
     "GLN": None, "HAR": None, "IVY": None, "OAK": None,
     "LAN": None, "KNG": None,
     "PEM": None, "QUI": None, "THO": None, "RAV": None,
+}
+
+
+# Vendor-specific buying instructions that fall out of the research. These are
+# spec floors the buy must hold even where the vendor's own opener sits below
+# them -- the cheapest thing a national brand makes is not automatically the
+# thing worth putting on our floor.
+VENDOR_BUY_RULES = {
+    "ashley": [
+        "Sinuous spring minimum. Ashley's opening stationary uses a "
+        "springless platform deck; those models are out of spec for this "
+        "line and must not be substituted in on a cost-down.",
+        "Do not take Ashley's upper motion (e.g. the $2,050-$3,200 band). It "
+        "prices straight through La-Z-Boy's Better motion and collapses the "
+        "ladder. Ashley motion stays at the $1,100-$1,400 opening band.",
+    ],
+    "lazboy": [
+        "Confirm the lifetime mechanism warranty in writing -- it is the "
+        "single strongest claim in the Better tier and it is currently "
+        "sourced only from dealer pages, not from La-Z-Boy directly.",
+    ],
+    "flexsteel": [
+        "Blue Steel Spring is the reason this tier costs what it costs. It "
+        "must be on the ticket and in the RSA story.",
+        "Electrical and motors are warranted 5 years, against La-Z-Boy's "
+        "lifetime mechanism claim. Press this in negotiation -- at Best-tier "
+        "retail a 5-year electrical cap is the weakest point in the line.",
+        "Entry fabric power configurations only. The dealer pricing sampled "
+        "was leather and triple-power heavy and is not our SKU.",
+    ],
 }
 
 
@@ -820,7 +900,7 @@ SKUS = [
     _s("MAR-RLC-B", "MAR", "Reclining Loveseat w/ Console", 1399, 76, 41, 42, 21, 20,
        "Wall-saver 3-position manual, dual recline"),
 
-    _s("NOR-PRC-B", "NOR", "Power Recliner", 899, 41, 42, 43, 21, 20),
+    _s("NOR-PRC-B", "NOR", "Power Recliner", 999, 41, 42, 43, 21, 20),
     _s("NOR-PSF-B", "NOR", "Power Reclining Sofa", 1899, 90, 42, 43, 21, 20),
     _s("NOR-PLC-B", "NOR", "Power Reclining Loveseat w/ Console", 1849, 78, 42, 43, 21, 20),
 
@@ -846,7 +926,7 @@ SKUS = [
     _s("RAV-SC5-X", "RAV", "5-Pc Modular Sectional", 3199, 160, 112, 36, 23, 19),
     _s("RAV-SC6-X", "RAV", "6-Pc Modular Sectional", 3499, 184, 112, 36, 23, 19),
 
-    _s("STR-PRC-X", "STR", "Power Recliner", 1299, 42, 43, 43, 21, 20),
+    _s("STR-PRC-X", "STR", "Power Recliner", 1499, 42, 43, 43, 21, 20),
     _s("STR-PSF-X", "STR", "Power Reclining Sofa", 2799, 92, 43, 43, 21, 20),
     _s("STR-PLC-X", "STR", "Power Reclining Loveseat w/ Console", 2699, 80, 43, 43, 21, 20),
 ]

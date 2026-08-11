@@ -1,0 +1,23 @@
+lane,step,sku_id,family,tier,retail,step_up_pct,margin_pct
+Classic Transitional sofa,1,ASH-SOF-G,Ashcroft,Good,849,,50.06
+Classic Transitional sofa,2,GLN-SOF-B,Glenwood,Better,1299,53.0,52.96
+Classic Transitional sofa,3,PEM-SOF-X,Pemberton,Best,1799,38.5,54.97
+Modern Transitional sofa,1,BRN-SOF-G,Brantley,Good,799,,48.56
+Modern Transitional sofa,2,HAR-SOF-B,Harlow,Better,1199,50.1,51.96
+Modern Transitional sofa,3,QUI-SOF-X,Quincy,Best,1749,45.9,53.97
+Casual Transitional sofa,1,COR-SOF-G,Cordell,Good,899,,50.5
+Casual Transitional sofa,2,IVY-SOF-B,Ivywood,Better,1349,50.1,53.0
+Casual Transitional sofa,3,RAV-SOF-X,Ravenswood,Best,1899,40.8,54.98
+Sectional (2-Pc chaise),1,DEN-SC2-G,Denby,Good,1099,,49.04
+Sectional (2-Pc chaise),2,LAN-SC2-B,Lanmore,Better,1599,45.5,52.47
+Sectional (3-Pc),1,DEN-SC3-G,Denby,Good,1399,,49.04
+Sectional (3-Pc),2,KNG-SC3-B,Kingsley,Better,1999,42.9,52.48
+Sectional (3-Pc),3,RAV-SC3-X,Ravenswood,Best,2699,35.0,54.98
+Recliner,1,EAS-REC-G,Easton,Good,499,,48.5
+Recliner,2,MAR-RRC-B,Marchetti,Better,699,40.1,51.93
+Recliner,3,NOR-PRC-B,Northfield,Better,899,28.6,51.5
+Recliner,4,STR-PRC-X,Stratton,Best,1299,44.5,54.97
+Reclining sofa,1,EAS-RSF-G,Easton,Good,999,,48.55
+Reclining sofa,2,MAR-RSF-B,Marchetti,Better,1449,45.0,51.97
+Reclining sofa,3,NOR-PSF-B,Northfield,Better,1899,31.1,51.5
+Reclining sofa,4,STR-PSF-X,Stratton,Best,2799,47.4,54.98

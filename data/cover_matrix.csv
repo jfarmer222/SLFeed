@@ -1,0 +1,20 @@
+family_code,family,tier,category,pieces,covers,cover_mix,fabric_program,rub_count,orderable_skus
+FAI,Fairhaven,Good,Stationary,3,4,"3 neutral, 1 blue -- all one price grade",Poly-blend performance flat weave,15000,12
+ASH,Ashcroft,Good,Stationary,4,4,"2 neutral, 1 greige, 1 blue -- all one price grade",Poly-blend performance flat weave,18000,16
+BRN,Brantley,Good,Stationary,3,4,"2 neutral, 1 charcoal, 1 ivory -- all one price grade",Poly-blend performance flat weave,18000,12
+COR,Cordell,Good,Stationary,4,5,"2 neutral, 1 sage, 1 rust, 1 blue -- all one price grade",Poly-blend performance flat weave,20000,20
+DEN,Denby,Good,Sectional,2,4,"2 neutral, 1 charcoal, 1 blue -- all one price grade",Poly-blend performance flat weave,18000,8
+EAS,Easton,Good,Motion,3,4,"2 performance fabric, 1 PU leather-look, 1 chocolate",Poly-blend performance / PU leather-look,20000,12
+GLN,Glenwood,Better,Stationary,4,10,"5 standard grade, 5 premium grade (+$100)",Performance chenille / textured weave,35000,40
+HAR,Harlow,Better,Stationary,4,8,"5 standard grade, 3 premium grade (+$100)",Performance textured weave / linen-look poly,35000,32
+IVY,Ivywood,Better,Stationary,4,10,"5 standard grade, 5 premium grade (+$100)",Performance chenille,40000,40
+OAK,Oakhurst,Better,Stationary,5,12,"12 performance covers, single price grade",Full performance program -- stain + moisture barrier,50000,60
+LAN,Lanmore,Better,Sectional,2,8,"5 standard grade, 3 premium grade (+$100)",Performance textured weave / linen-look poly,35000,16
+KNG,Kingsley,Better,Sectional,3,10,"5 standard grade, 5 premium grade (+$100)",Performance chenille,40000,30
+MAR,Marchetti,Better,Motion,4,8,"5 performance fabric, 3 genuine split-grain leather (+$200)",Performance fabric / split-grain leather,40000,32
+NOR,Northfield,Better,Motion,3,8,"5 performance fabric, 3 genuine split-grain leather (+$200)",Performance fabric / split-grain leather,40000,24
+PEM,Pemberton,Best,Stationary,4,16,"8 in-stock, 8 custom-order book (+$150-$400)",Premium woven / velvet / Crypton performance,60000,64
+QUI,Quincy,Best,Stationary,3,14,"7 in-stock, 7 custom-order book (+$150-$400)",Premium woven / velvet / Crypton performance,60000,42
+THO,Thorne,Best,Stationary,3,6,"4 top-grain leather in-stock, 2 full-aniline special order","Top-grain leather, full aniline available",100000,18
+RAV,Ravenswood,Best,Sectional,4,18,"8 in-stock, 10 custom-order book (+$150-$400)",Premium woven / performance velvet / Crypton,60000,72
+STR,Stratton,Best,Motion,3,16,"8 premium performance fabric, 8 top-grain leather (+$300)",Top-grain leather / premium performance fabric,100000,48

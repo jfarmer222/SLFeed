@@ -122,6 +122,61 @@ VENDORS = {
                 "(blue-steel seat spring) that justifies the step above "
                 "La-Z-Boy without leaving the motion category.",
     },
+    # --- Niche / design-led High Point resources -------------------------
+    # See research/highpoint-niche-upholstery.md for full profiles + sources.
+    "younger": {
+        "name": "Younger + Co",
+        "type": NICHE,
+        "tier_role": BEST,
+        "categories": (STATIONARY, SECTIONAL),
+        "showroom": "220 Elm, Suite 214",
+        "domestic": True,
+        "lead_time": "Made to order; Quick Ship program (6 sofa frames, "
+                     "6 chairs, 21 fabrics rated 15k-100k Martindale)",
+        "note": "Bench-built NC, all inputs sourced within 85 miles of the "
+                "plant, SFI frames, CertiPUR foam. The only resource found "
+                "whose verified retail lands inside our target band.",
+    },
+    "norwalk": {
+        "name": "Norwalk Furniture",
+        "type": NICHE,
+        "tier_role": BEST,
+        "categories": (STATIONARY, SECTIONAL),
+        "showroom": "IHFC M108",
+        "domestic": True,
+        "lead_time": "35-day delivery target (verified; fastest custom "
+                     "program found)",
+        "note": "Employee-owned (ESOP, 2021). 500+ frames x 800+ covers. "
+                "The custom story a national brand structurally cannot "
+                "match, at a lead time that does not lose the sale.",
+    },
+    "crlaine": {
+        "name": "CR Laine",
+        "type": NICHE,
+        "tier_role": BEST,
+        "categories": (STATIONARY,),
+        "showroom": "310 N. Hamilton St., S-204",
+        "domestic": True,
+        "lead_time": "14-16 weeks -- the one real objection",
+        "note": "Best-documented construction found: 8-way hand-tied "
+                "double-cone coils over poly webbing and steel bands, "
+                "twice-doweled corner-blocked kiln-dried frames, soy-based "
+                "HR foam, baffled backs, patterns matched top-to-bottom. "
+                "Lifetime frame and suspension warranty.",
+    },
+    "amleather": {
+        "name": "American Leather",
+        "type": NICHE,
+        "tier_role": BEST,
+        "categories": (STATIONARY,),
+        "showroom": "Showplace 5000",
+        "domestic": True,
+        "lead_time": "4-6 weeks domestic made-to-order",
+        "note": "Comfort Sleeper platform -- no bars, no springs, 5in "
+                "mattress, lifetime frame warranty. Deepest cover program "
+                "found (150+ leathers, 250 fabrics, 90 Ultrasuede). Prices "
+                "at the ceiling, so it is a halo SKU, not a volume resource.",
+    },
 }
 
 # Observed street-price ranges by brand and piece type, from public dealer
@@ -141,6 +196,22 @@ VENDOR_OBSERVED_RANGES = {
     ("flexsteel", "Power Recliner"): (1898, 3997),
     ("flexsteel", "Power Reclining Sofa"): (2998, 4997),
     ("flexsteel", "Power Reclining Loveseat w/ Console"): (2998, 4997),
+    # Niche domestic makers -- dealer retail, see niche research file.
+    ("younger", "Sofa"): (1830, 3062),
+    ("norwalk", "Sofa"): (1850, 3850),
+    ("crlaine", "Sofa"): (2600, 4100),
+    ("amleather", "Sofa"): (3249, 4799),
+}
+
+# Vendors verified as CLOSED or restructured -- do not source, do not book an
+# appointment. Recorded because a High Point directory listing is NOT evidence
+# a company is still trading.
+DEFUNCT_VENDORS = {
+    "Leathercraft by OHD": (
+        "Closed permanently 31 Aug 2025, but its High Point showroom listing "
+        "at 404 N. Wrenn St. was still live at time of research. Reconfirm "
+        "every vendor directly before booking market appointments."
+    ),
 }
 
 # Where we knowingly price outside a brand's observed range, and why.

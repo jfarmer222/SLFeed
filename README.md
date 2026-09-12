@@ -116,3 +116,100 @@ costing returns, then rerun both scripts.
 sectionals are real mid-market volume and filling them properly needs 3–4 SKUs
 beyond 65), and no $599 opening sofa. Both are documented with recommended
 fills in `docs/05-assortment-health.md`.
+
+---
+
+# Slumberland Recliner Gallery — 65 SKUs
+
+A second, separate line in this repository: the 65-SKU recliner assortment for
+Slumberland's recliner gallery, built backwards from the customer and validated
+against the Slumberland Category Architecture.
+
+**This is not the upholstery line above.** Different category, different rules.
+Most importantly: the stationary line caps national brands at 30% of the floor,
+while recliners are national-brand **led** — La-Z-Boy holds 64% of slots by BIC
+commitment. The recliner validator enforces a La-Z-Boy *floor*, not a national
+*cap*. See conflict C-014.
+
+## The line at a glance
+
+| | Slots | Price range | Avg retail |
+|---|---:|---|---:|
+| Good — up to $399 | 5 | $349–$399 | $369 |
+| Better — $400–$1,099 | 33 | $449–$1,099 | $754 |
+| Best — $1,100+ | 5 | $1,299–$2,999 | $2,019 |
+| Lift — parallel ladder | 9 | $599–$2,799 | $1,438 |
+| **52 MDL slots** | **52** | | |
+| Off-slot (promo, special buy, quick-ship, colour flex) | 13 | $299–$1,099 | $616 |
+| **65 floored SKUs** | | **$299–$2,999** | |
+
+**Brand mix across the 52 governed slots:** La-Z-Boy 33 (63%) · Ashley 7 ·
+Franklin 7 · Flexsteel 5.
+
+## The thesis
+
+> **$299 gets the conversation. $699 gets the margin. $2,999 makes $899 look
+> sensible.**
+
+Good holds 11% of slots and returns 5% of sales. Best holds 11% and returns
+**19%** — a 1.7x sales-per-slot premium. So the strategy is to advertise the
+bottom of the ladder as loudly as the budget allows and make sure nobody who
+walks in on a $299 ad stays at $299.
+
+The structural move that makes it work: **the $299 does not get a slot.** The
+merchandise matrix defines Target Slot Count as excluding special buys and
+promotional items, so the doorbusters, special purchases and quick-ship chairs
+are *floored but not slotted* — 13 of 65 SKUs, 0 of 52 slots. We can promote
+$299 at full volume at zero cost in strategic slots.
+
+## Layout
+
+```
+data/recliner_sku_master.csv      65 SKUs, generated — do not hand-edit
+data/recliner_slots.csv           the 52-slot grid
+data/recliner_tradeup_lanes.csv   9 lanes, one per customer job
+data/recliner_color_matrix.csv    70/20/10
+
+scripts/recliner_rules.py         every constraint + the conflict register
+scripts/recliner_data.py          the 65 SKUs — CHANGE THINGS HERE
+scripts/build_recliner_data.py    config -> CSV
+scripts/recliner_health.py        11 check groups, exit 1 on FAIL
+scripts/build_recliner_workbook.py -> 65_SKU_Recliner_Assortment_Map.xlsx
+
+docs/recliners/01-customer-jobs.md        nine jobs, defined before any SKU
+docs/recliners/02-price-architecture.md   the rails
+docs/recliners/03-trade-up-ladder.md      why each step exists
+docs/recliners/04-genz-millennial.md      the wide-appeal question
+docs/recliners/05-lift-ladder.md          9 slots, own denominator
+docs/recliners/06-color-cover.md          the only thing that varies by store
+docs/recliners/07-conflicts-decisions.md  what still needs a decision
+
+research/recliner-street-pricing.md       ~240 verified models, pulled 2026-09-12
+research/highpoint-motion-recliner.md     showrooms, trend read, dropped vendors
+```
+
+## Build and validate
+
+```sh
+cd scripts
+python3 build_recliner_data.py      # config -> data/*.csv
+python3 recliner_health.py          # must exit 0
+python3 build_recliner_workbook.py  # -> 65_SKU_Recliner_Assortment_Map.xlsx
+```
+
+`recliner_health.py` fails the build on: wrong SKU or slot counts, a tier
+outside its price band, GBB drift beyond ±1 slot, La-Z-Boy below its floor, a
+dropped vendor reappearing, a price step under $50, a tech reveal below $1,100,
+an accelerator colour mid-ladder, or the $299 landing on a governed slot.
+
+## Two decisions are still open
+
+- **C-016 — the $299 doesn't verify.** Collage prices at $399.99, Joshua at
+  $699.99, Randell at $1,149.99. The Special Purchase *program* is real; the
+  $299 *price* is not. It is floored as a to-be-sourced special buy, flagged,
+  with a verified Ashley doorbuster alongside it as cover.
+- **C-017 — La-Z-Boy has no charging SKU at any price.** Franklin sells wireless
+  charging at $768.99. Tech is held above $1,100 to keep the volume corridor
+  anchor-brand-led; the cost is the under-35 story below $1,100.
+
+Both are in `docs/recliners/07-conflicts-decisions.md` with the evidence.

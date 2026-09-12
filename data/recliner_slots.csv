@@ -1,0 +1,53 @@
+slot_no,category,tier,brand,model,retail,customer_job,trade_up_feature
+L-01,Lift,Better,La-Z-Boy,Jean Lift Recliner,599,Easier to stand,lift_2position
+L-02,Lift,Better,Flexsteel,Granite Lift Chair Recliner,749,Easier to stand,lift_2position
+L-03,Lift,Better,La-Z-Boy,Miller Lift Chair Recliner,899,Easier to stand,lift_3position
+L-04,Lift,Better,La-Z-Boy,James Lift Recliner,1099,Easier to stand,lift_power_recline
+L-05,Lift,Best,La-Z-Boy,Emerald Lift Chair Recliner,1299,Easier to stand,lift_infinite
+L-06,Lift,Best,Flexsteel,Platinum Lift Recliner,1499,Easier to stand,lift_infinite
+L-07,Lift,Best,La-Z-Boy,Clayton Lift Recliner with Heat and Massage,1799,Easier to stand,lift_heat_massage
+L-08,Lift,Best,Franklin,Polaris Power Lift Chair Recliner,2199,Easier to stand,lift_heavy_duty
+L-09,Lift,Best,Flexsteel,Zecliner Model 3+ Petite Lift Recliner,2799,Easier to stand,lift_sleep_wellness
+R-01,Recliner,Good,Ashley,Stayfish Rocker Recliner,349,Cheap and now,manual_rocker
+R-02,Recliner,Good,Ashley,Altari Rocker Recliner,349,Not a recliner,manual_rocker
+R-03,Recliner,Good,La-Z-Boy,Collage Rocker Recliner,399,Cheap and now,manual_rocker
+R-04,Recliner,Good,Ashley,Kegler Rocker Recliner,399,Cheap and now,manual_rocker
+R-05,Recliner,Good,Ashley,Tulen Rocker Recliner,399,Not a recliner,manual_rocker
+R-06,Recliner,Better,La-Z-Boy,Hawthorn Rocker Recliner,449,First real chair,manual_rocker
+R-07,Recliner,Better,Franklin,Kensington Rocker Recliner,449,First real chair,manual_rocker
+R-08,Recliner,Better,La-Z-Boy,Charlotte High-Leg Recliner,499,Not a recliner,pushback_hileg
+R-09,Recliner,Better,La-Z-Boy,Vail Rocker Recliner,499,First real chair,manual_rocker
+R-10,Recliner,Better,La-Z-Boy,Rowan Wall Recliner,549,Will it fit,wall_saver
+R-11,Recliner,Better,La-Z-Boy,Finley Wall Recliner,549,Will it fit,wall_saver
+R-12,Recliner,Better,Franklin,Kensington Swivel Rocking Recliner,599,Not a recliner,swivel_glider
+R-13,Recliner,Better,Ashley,ModMax Swivel Glider Recliner,599,Survive my life,swivel_glider
+R-14,Recliner,Better,La-Z-Boy,James Rocker Recliner,599,First real chair,manual_rocker
+R-15,Recliner,Better,La-Z-Boy,Pinnacle Swivel Glider Recliner,649,Not a recliner,swivel_glider
+R-16,Recliner,Better,Franklin,Brutus Oversized Snuggler Rocking Recliner,649,Built my size,manual_rocker
+R-17,Recliner,Better,La-Z-Boy,Jasper Rocker Recliner,649,First real chair,manual_rocker
+R-18,Recliner,Better,Ashley,Draycoll Power Rocker Recliner,699,My chair,power_recline
+R-19,Recliner,Better,La-Z-Boy,Joshua Rocker Recliner,699,First real chair,manual_rocker
+R-20,Recliner,Better,La-Z-Boy,Reed Rocker Recliner,699,First real chair,manual_rocker
+R-21,Recliner,Better,La-Z-Boy,Morrison Rocker Recliner,699,My chair,manual_rocker
+R-22,Recliner,Better,Franklin,Yogi Power Recliner,749,My chair,power_recline
+R-23,Recliner,Better,La-Z-Boy,Trouper Rocker Recliner,749,My chair,manual_rocker
+R-24,Recliner,Better,La-Z-Boy,Astor Rocker Recliner,749,Survive my life,manual_rocker
+R-25,Recliner,Better,La-Z-Boy,Pinnacle Power Headrest Recliner,799,My chair,power_headrest
+R-26,Recliner,Better,La-Z-Boy,Pinnacle Rocker Recliner,799,My chair,manual_rocker
+R-27,Recliner,Better,La-Z-Boy,Scarlett High Leg Reclining Chair,799,Will it fit,pushback_hileg
+R-28,Recliner,Better,La-Z-Boy,Pinnacle Wall Recliner,849,Will it fit,wall_saver
+R-29,Recliner,Better,La-Z-Boy,Randell Rocker Recliner,849,Built my size,manual_rocker
+R-30,Recliner,Better,Ashley,Rowlett Power Headrest + Lumbar Recliner,899,Survive my life,power_lumbar
+R-31,Recliner,Better,La-Z-Boy,Fulton Rocker Recliner,899,My chair,manual_rocker
+R-32,Recliner,Better,La-Z-Boy,Kodie Rocker Recliner,899,Survive my life,manual_rocker
+R-33,Recliner,Better,Franklin,Sultan Power Oversized Rocker Recliner,949,My chair,power_recline
+R-34,Recliner,Better,La-Z-Boy,Ava Rocker Recliner,949,My chair,manual_rocker
+R-35,Recliner,Better,La-Z-Boy,Trouper Leather Rocker Recliner,999,Survive my life,leather_match
+R-36,Recliner,Better,La-Z-Boy,Dorian Rocker Recliner,999,My chair,manual_rocker
+R-37,Recliner,Better,La-Z-Boy,Greyson Leather Rocker Recliner,1049,My chair,leather_match
+R-38,Recliner,Better,La-Z-Boy,Pinnacle Leather Rocker Recliner,1099,My chair,leather_match
+R-39,Recliner,Best,Franklin,Denali Power Rocker Recliner,1299,Does everything,usb_charging
+R-40,Recliner,Best,Flexsteel,Perfect Match Refined Leather Power Swivel Glider Recliner,1599,Does everything,premium_leather
+R-41,Recliner,Best,La-Z-Boy,Roman Leather Reclining Oversize Chair,1899,Built my size,premium_leather
+R-42,Recliner,Best,La-Z-Boy,Contour Leather SoCozi Power+ Rocker Recliner,2299,Does everything,massage
+R-43,Recliner,Best,Flexsteel,Everest Power Swivel Glider Recliner,2999,Does everything,zero_gravity

@@ -1,0 +1,10 @@
+lane,customer_job,mission,slots,entry_retail,entry_model,top_retail,top_model,spread_pct,reveals
+Price access,Cheap and now,The $299 ad to a chair that earns its slot,3,349,Ashley Stayfish Rocker Recliner,399,Ashley Kegler Rocker Recliner,14.3,manual_rocker
+First chair,First real chair,"New household, first non-hand-me-down",7,449,La-Z-Boy Hawthorn Rocker Recliner,699,La-Z-Boy Reed Rocker Recliner,55.7,manual_rocker
+Core comfort,My chair,The volume engine -- manual to power,12,699,Ashley Draycoll Power Rocker Recliner,1099,La-Z-Boy Pinnacle Leather Rocker Recliner,57.2,power_recline -> manual_rocker -> power_headrest -> leather_match
+Small space,Will it fit,"Wall-saver and hi-leg, apartment scale",4,549,La-Z-Boy Rowan Wall Recliner,849,La-Z-Boy Pinnacle Wall Recliner,54.6,wall_saver -> pushback_hileg
+Family proof,Survive my life,Cover-led: performance fabric to leather,5,599,Ashley ModMax Swivel Glider Recliner,999,La-Z-Boy Trouper Leather Rocker Recliner,66.8,swivel_glider -> manual_rocker -> power_lumbar -> leather_match
+Under-35 design,Not a recliner,"Silhouette-led: hi-leg, swivel glider",5,349,Ashley Altari Rocker Recliner,649,La-Z-Boy Pinnacle Swivel Glider Recliner,86.0,manual_rocker -> pushback_hileg -> swivel_glider
+Accommodation,Built my size,"Big and tall, cuddler, oversized",3,649,Franklin Brutus Oversized Snuggler Rocking Recliner,1899,La-Z-Boy Roman Leather Reclining Oversize Chair,192.6,manual_rocker -> premium_leather
+Aging in place,Easier to stand,The parallel lift ladder,9,599,La-Z-Boy Jean Lift Recliner,2799,Flexsteel Zecliner Model 3+ Petite Lift Recliner,367.3,lift_2position -> lift_3position -> lift_power_recline -> lift_infinite -> lift_heat_massage -> lift_heavy_duty -> lift_sleep_wellness
+Wellness / halo,Does everything,"Tech, leather grade, massage, zero-g",4,1299,Franklin Denali Power Rocker Recliner,2999,Flexsteel Everest Power Swivel Glider Recliner,130.9,usb_charging -> premium_leather -> massage -> zero_gravity

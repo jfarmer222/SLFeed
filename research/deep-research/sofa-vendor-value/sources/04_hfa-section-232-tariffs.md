@@ -15,5 +15,9 @@
 > tariffs "focus on upholstered furniture seating, and the exposure to case goods/wood furniture is limited"
 > the situation is "immediately disruptive"
 
+## Verification note (main agent, 2026-09-26)
+**Stale on the 30% step.** The January 1, 2026 increase was delayed to
+January 1, 2027; upholstered furniture stays at 25% (sources 88, 96).
+
 ## Relevance
 OPPOSES (or complicates) any SKU-swap plan: new Section 232 tariffs specifically target upholstered furniture (25%→30%), raising input costs industry-wide right as a retailer would be trying to launch new reclining-sectional/swivel-chair/apartment-sofa SKUs — a cost headwind independent of demand trends that could compress margins on any new introduction, especially imported components.

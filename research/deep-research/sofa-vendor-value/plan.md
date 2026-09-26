@@ -111,3 +111,8 @@ for evidence that each swap is wrong.
 ## Changelog
 
 - 2026-09-26: plan written.
+- 2026-09-26: five search streams run in parallel (sources 01–96).
+- 2026-09-26: follow-up round: H.M. Richards ownership (100, 101), Flexsteel price re-check (102).
+  Source 47 marked misattributed and excluded; source 04 marked stale on the 30% tariff step.
+- 2026-09-26: report `2026-09-26_decision.md`, findings F1–F6, `refresh_targets.md` written.
+  Six swaps delivered (goal was 6–8). Chair-and-a-half dropped: one source only.

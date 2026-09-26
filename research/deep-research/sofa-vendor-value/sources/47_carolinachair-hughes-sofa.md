@@ -22,5 +22,11 @@
 
 > "Overall Length: 89.5\" ... Seat Width: 72\""
 
+## Verification note (main agent, 2026-09-26)
+**Misattributed, excluded from findings.** The page is Carolina Chair's own
+custom sofa model named "Hughes Sofa". Its text says it is built "in our third
+generation, family owned shop", i.e. by Carolina Chair, not by Hughes Furniture
+Industries (Randleman, NC). It says nothing about the Brantley vendor.
+
 ## Relevance
 Confirms Hughes Furniture (Randleman, NC) builds this specific sofa model with US-made 8-way hand-tied springs and kiln-dried hardwood frame — construction well above the brief's sinuous-spring floor. However, note the price context here ($2,610–$2,995 through this custom-order dealer channel) is far above the ~$799 "thin margin" price cited in the brief for Hughes through mass retail channels — the same model/brand spans very different price points depending on distribution channel (custom-build direct vs. big-box retail SKU), a caution when comparing "Hughes Furniture" prices across sources.

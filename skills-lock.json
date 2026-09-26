@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "deep-research": {
+      "source": "alirezarezvani/claude-skills",
+      "sourceType": "github",
+      "skillPath": "research/deep-research/skills/deep-research/SKILL.md",
+      "computedHash": "952c0294f70d7abcb023a8440467e6126edc68f45a54274f0ea05ca6542a6dbb"
+    }
+  }
+}

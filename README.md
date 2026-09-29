@@ -47,6 +47,8 @@ docs/
   04-cover-strategy.md      Cover depth, gating logic, proliferation math
   05-assortment-health.md   Current check status, exceptions, open items
   06-vendor-architecture.md Who supplies each SKU, buy rules, do-not-source
+  07-recliner-category-strategy.md  Slumberland recliner strategy: La-Z-Boy + SL,
+                            housing scenarios, scale as the moat
 
 research/                   Captured vendor research, ~90 cited sources
   national-brands.md        Ashley, La-Z-Boy, Flexsteel
